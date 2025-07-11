@@ -2308,7 +2308,13 @@
             const currentYear = new Date().getFullYear();
             const recentDocs = documents.filter(doc => {
                 if (doc[COLUMNS.HORODATEUR]) {
-                    const date = new Date(doc[COLUMNS.HORODATEUR]);
+                    // On convertit d'abord "11/07/2025 11:24:50" → "2025-07-11T11:24:50"
+                    const parts = doc[COLUMNS.HORODATEUR].split(' ');
+                    const [day, month, year] = parts[0].split('/');
+                    const time = parts[1];
+                    const isoString = `${year}-${month}-${day}T${time}`;
+                    const date = new Date(isoString);
+            
                     return date.getMonth() === currentMonth && date.getFullYear() === currentYear;
                 }
                 return false;
