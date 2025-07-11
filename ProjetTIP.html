@@ -83,8 +83,6 @@
         .nav-links a.active {
             background: linear-gradient(45deg, #d4af37, #b8941f);
             color: #000;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(212, 175, 55, 0.4);
         }
 
         .main-content {
@@ -157,7 +155,741 @@
             padding-bottom: 0.5rem;
         }
 
-        /* STYLES SPÉCIFIQUES POUR LA BIBLIOGRAPHIE */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .resource-card {
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.6), rgba(139, 69, 19, 0.3));
+            border-radius: 10px;
+            padding: 1.5rem;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .resource-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .resource-card:hover {
+            border-color: #d4af37;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .resource-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .resource-number {
+            font-size: 2.5rem;
+            color: #d4af37;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .resource-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #f4f4f4;
+        }
+
+        .resource-description {
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(145deg, #1a1a1a, #2d2d2d);
+            border-radius: 15px;
+            padding: 0;
+            max-width: 1200px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 2px solid #d4af37;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-header {
+            background: linear-gradient(45deg, #d4af37, #b8941f);
+            color: #000;
+            padding: 1.5rem 2rem;
+            border-radius: 13px 13px 0 0;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: #000;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            font-weight: bold;
+        }
+
+        .modal-close:hover {
+            transform: scale(1.2);
+        }
+
+        .modal-title {
+            font-size: 2.2rem;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .modal-subtitle {
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+            opacity: 0.8;
+        }
+
+        .modal-body {
+            padding: 2rem;
+            color: #f4f4f4;
+        }
+
+        .wiki-image {
+            width: 100%;
+            max-width: 400px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin: 1rem 0;
+            border: 2px solid #d4af37;
+            float: right;
+            margin-left: 1rem;
+        }
+
+        .wiki-infobox {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            width: 400px;
+            float: right;
+            margin-left: 1rem;
+        }
+
+        .wiki-infobox h3 {
+            color: #d4af37;
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .wiki-infobox table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .wiki-infobox td {
+            padding: 0.5rem;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            font-size: 0.9rem;
+        }
+
+        .wiki-infobox td:first-child {
+            font-weight: bold;
+            color: #d4af37;
+            width: 40%;
+        }
+
+        .wiki-section {
+            margin: 2rem 0;
+            clear: both;
+        }
+
+        .wiki-section h3 {
+            color: #d4af37;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #d4af37;
+            padding-bottom: 0.5rem;
+        }
+
+        .wiki-section h4 {
+            color: #b8941f;
+            font-size: 1.2rem;
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
+        .wiki-section p {
+            line-height: 1.7;
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        .wiki-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .wiki-gallery img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            border: 1px solid #d4af37;
+        }
+
+        .wiki-references {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .wiki-references h3 {
+            color: #d4af37;
+            margin-bottom: 1rem;
+        }
+
+        .wiki-references ol {
+            list-style: decimal;
+            padding-left: 2rem;
+        }
+
+        .wiki-references li {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .calculation-box {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #d4af37;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .formula {
+            background: rgba(212, 175, 55, 0.1);
+            padding: 1rem;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 0.5rem 0;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .timeline-graph {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)),
+                url('https://colosseo-roma.it/wp-content/uploads/2024/12/Pantheon.webp') center/cover;
+            border-radius: 15px;
+            padding: 3rem 2rem 4rem 2rem;
+            margin: 2rem 0;
+            overflow-x: auto;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+        }
+
+        .timeline-line {
+            position: absolute;
+            top: 30%;
+            left: 5%;
+            right: 5%;
+            height: 4px;
+            background: linear-gradient(to right, #d4af37, #b8941f, #d4af37);
+            border-radius: 2px;
+            transform: translateY(-50%);
+        }
+
+        .timeline-point {
+            position: absolute;
+            top: 30%;
+            width: 20px;
+            height: 20px;
+            background: #d4af37;
+            border: 4px solid #2c1810;
+            border-radius: 50%;
+            cursor: pointer;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .timeline-point:hover {
+            width: 28px;
+            height: 28px;
+            background: #f4e4bc;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.8);
+        }
+
+        .timeline-point.active {
+            width: 28px;
+            height: 28px;
+            background: #f4e4bc;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.8);
+        }
+
+        .timeline-date-label {
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            color: #d4af37;
+            font-weight: bold;
+            text-align: center;
+            white-space: nowrap;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.3rem 0.6rem;
+            border-radius: 5px;
+        }
+
+        .timeline-info {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 320px;
+            max-width: 90vw;
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.9), rgba(139, 69, 19, 0.6));
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            padding: 1.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            z-index: 20;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .timeline-info.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(10px);
+        }
+
+        .timeline-info h4 {
+            color: #d4af37;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            padding-bottom: 0.5rem;
+        }
+
+        .timeline-info p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            text-align: justify;
+            color: #f4f4f4;
+        }
+
+        .timeline-info::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid #d4af37;
+        }
+
+        .timeline-info-left {
+            left: 0;
+            transform: translateX(0);
+        }
+
+        .timeline-info-left.show {
+            transform: translateX(0) translateY(10px);
+        }
+
+        .timeline-info-left::before {
+            left: 80px;
+        }
+
+        .timeline-info-right {
+            right: 0;
+            left: auto;
+            transform: translateX(0);
+        }
+
+        .timeline-info-right.show {
+            transform: translateX(0) translateY(10px);
+        }
+
+        .timeline-info-right::before {
+            left: auto;
+            right: 80px;
+            transform: translateX(50%);
+        }
+
+        .timeline-controls {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-btn {
+            background: linear-gradient(45deg, #d4af37, #b8941f);
+            color: #000;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            margin: 0 0.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .timeline-btn.active {
+            background: linear-gradient(45deg, #f4e4bc, #d4af37);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.6);
+        }
+
+        .responsive-table {
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        th {
+            background: rgba(212, 175, 55, 0.2);
+            color: #d4af37;
+            font-weight: bold;
+        }
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+        /* === STYLES POUR LA PAGE CONTACT === */
+        /* Grille des informations de contact */
+        .contact-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .contact-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .contact-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .contact-card h3 {
+            color: #d4af37;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .contact-card p {
+            margin: 0.5rem 0;
+            opacity: 0.9;
+        }
+
+        /* Conteneur du formulaire */
+        .contact-form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 3rem;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #d4af37;
+            font-size: 1.1rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            padding: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #d4af37;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.3);
+        }
+
+        .form-group select option {
+            background: #2c3e50;
+            color: white;
+        }
+
+        /* Checkbox personnalisée */
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            margin-right: 0.8rem;
+            width: 18px;
+            height: 18px;
+            accent-color: #d4af37;
+        }
+
+        /* Bouton de soumission */
+        .submit-btn {
+            padding: 1.2rem 2rem;
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            color: #2c3e50;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-loading {
+            display: none;
+        }
+
+        .submit-btn.loading .btn-text {
+            display: none;
+        }
+
+        .submit-btn.loading .btn-loading {
+            display: inline;
+        }
+
+        /* Informations pratiques */
+        .practical-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .info-block {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+        }
+
+        .info-block h3 {
+            color: #d4af37;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+            padding-bottom: 0.5rem;
+        }
+
+        .info-block p {
+            margin: 0.8rem 0;
+            line-height: 1.6;
+        }
+
+        .info-block strong {
+            color: #d4af37;
+        }
+
+        /* Animations d'apparition */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .contact-card {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .contact-card:nth-child(2) { animation-delay: 0.1s; }
+        .contact-card:nth-child(3) { animation-delay: 0.2s; }
+        .contact-card:nth-child(4) { animation-delay: 0.3s; }
+
+        @media (max-width: 768px) {
+            .nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .main-content {
+                margin-top: 120px;
+                padding: 1rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                top: 2%;
+                max-height: 96vh;
+            }
+
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .wiki-image, .wiki-infobox {
+                float: none;
+                width: 100%;
+                margin: 1rem 0;
+            }
+
+            /* Responsive pour mobile - Contact */
+            .contact-info-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-form-container {
+                padding: 2rem;
+            }
+
+            .practical-info {
+                grid-template-columns: 1fr;
+            }
+        }
         .bib-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -666,81 +1398,294 @@
             </div>
         </div>
 
-        <!-- PAGE BIBLIOGRAPHIE -->
-        <div id="bibliographie" class="page">
+        <!-- PAGE PROJET -->
+        <div id="projet" class="page">
             <div class="hero-section">
-                <h1 class="hero-title">📚 BASE BIBLIOGRAPHIQUE</h1>
+                <h1 class="hero-title">LE PROJET PANTHÉON</h1>
                 <p class="hero-subtitle">
-                    Collection scientifique et documentaire sur le Panthéon romain
+                    Une exploration multidisciplinaire de l'un des monuments les plus fascinants de l'Antiquité
                 </p>
             </div>
 
             <div class="section">
-                <div class="bib-stats">
-                    <div class="bib-stat-card">
-                        <div class="bib-stat-number" id="totalDocs">-</div>
-                        <div class="bib-stat-label">Documents</div>
-                    </div>
-                    <div class="bib-stat-card">
-                        <div class="bib-stat-number" id="totalCategories">-</div>
-                        <div class="bib-stat-label">Catégories</div>
-                    </div>
-                    <div class="bib-stat-card">
-                        <div class="bib-stat-number" id="totalTags">-</div>
-                        <div class="bib-stat-label">Étiquettes</div>
-                    </div>
-                    <div class="bib-stat-card">
-                        <div class="bib-stat-number" id="recentDocs">-</div>
-                        <div class="bib-stat-label">Ce mois</div>
-                    </div>
-                </div>
-
-                <div class="bib-alert bib-alert-info">
-                    <span class="bib-status-indicator bib-status-connected" id="statusIndicator"></span>
-                    <span id="statusText">Connexion à la base de données...</span>
-                </div>
-            </div>
-
-            <div class="bib-search-section">
-                <h2 class="section-title">🔍 Recherche Documentaire</h2>
-                <div class="bib-search-bar">
-                    <input type="text" class="bib-search-input" id="searchInput" placeholder="Rechercher par titre, auteur, mot-clé...">
-                    <button class="bib-btn bib-btn-primary" onclick="loadDocuments()">Rechercher</button>
-                    <button class="bib-btn bib-btn-secondary" onclick="clearFilters()">Effacer</button>
-                </div>
-                <div class="bib-filters">
-                    <select class="bib-filter-select" id="categoryFilter">
-                        <option value="">Toutes les catégories</option>
-                    </select>
-                    <select class="bib-filter-select" id="yearFilter">
-                        <option value="">Toutes les années</option>
-                    </select>
-                    <input type="text" class="bib-filter-select" id="authorFilter" placeholder="Filtrer par auteur">
-                </div>
+                <h2 class="section-title">Objectifs du Projet</h2>
+                <p>Ce projet vise à présenter une analyse complète du Panthéon romain sous plusieurs aspects : architectural, mathématique, physique et historique. Notre approche multidisciplinaire permet de comprendre comment les ingénieurs romains ont créé cette merveille qui continue de nous émerveiller près de 2000 ans après sa construction.</p>
             </div>
 
             <div class="section">
-                <h2 class="section-title">➕ Ajouter un Document</h2>
-                <p style="margin-bottom: 1rem; opacity: 0.9;">Utilisez le formulaire Google pour enrichir la base bibliographique :</p>
-                <button class="bib-btn bib-btn-primary" onclick="openGoogleForm()">
-                    📝 Ouvrir le Formulaire d'Ajout
-                </button>
+                <h2 class="section-title">Méthodologie</h2>
+                <p>Notre recherche s'appuie sur :</p>
+                <p><strong>• Analyse architecturale :</strong> Étude des techniques de construction et des matériaux utilisés</p>
+                <p><strong>• Calculs mathématiques :</strong> Modélisation des forces, contraintes et propriétés géométriques</p>
+                <p><strong>• Physique appliquée :</strong> Analyse de la propagation de la lumière et de l'acoustique</p>
+                <p><strong>• Recherche historique :</strong> Contextualisation dans l'histoire romaine et l'évolution architecturale</p>
             </div>
 
-            <div id="documentsContainer" class="bib-documents-container">
-                <div class="bib-loading">Chargement de la bibliographie...</div>
+            <div class="section">
+                <h2 class="section-title">Innovation Technique</h2>
+                <p>Le Panthéon représente plusieurs innovations majeures de l'ingénierie romaine. L'utilisation révolutionnaire du béton romain (opus caementicium) a permis la création d'un dôme auto-portant d'une portée inégalée. La variation progressive de l'épaisseur et de la composition du béton, plus léger vers le sommet, témoigne d'une compréhension sophistiquée des matériaux et des forces structurelles.</p>
             </div>
         </div>
 
-        <!-- Autres pages existantes... (projet, ressources, etc.) -->
-        <div id="projet" class="page">
+        <!-- PAGE RESSOURCES -->
+        <div id="ressources" class="page">
             <div class="hero-section">
-                <h1 class="hero-title">LE PROJET PANTHÉON</h1>
-                <p class="hero-subtitle">Une exploration multidisciplinaire de l'un des monuments les plus fascinants de l'Antiquité</p>
+                <h1 class="hero-title">RESSOURCES DOCUMENTAIRES</h1>
+                <p class="hero-subtitle">
+                    Explorez nos ressources classées selon la tradition romaine
+                </p>
             </div>
+
+            <div class="resources-grid">
+                <div class="resource-card" onclick="openModal('resource1')">
+                    <div class="resource-number">I</div>
+                    <div class="resource-title">Architecture et Construction</div>
+                    <div class="resource-description">Techniques de construction, matériaux utilisés et innovations architecturales du Panthéon romain.</div>
+                </div>
+
+                <div class="resource-card" onclick="openModal('resource2')">
+                    <div class="resource-number">II</div>
+                    <div class="resource-title">Géométrie Sacrée</div>
+                    <div class="resource-description">Proportions parfaites et symbolisme géométrique dans la conception du monument.</div>
+                </div>
+
+                <div class="resource-card" onclick="openModal('resource3')">
+                    <div class="resource-number">III</div>
+                    <div class="resource-title">Matériaux Révolutionnaires</div>
+                    <div class="resource-description">Le béton romain et ses propriétés exceptionnelles qui défient encore nos connaissances actuelles.</div>
+                </div>
+
+                <div class="resource-card" onclick="openModal('resource4')">
+                    <div class="resource-number">IV</div>
+                    <div class="resource-title">Ingénierie Structurelle</div>
+                    <div class="resource-description">Analyse des forces et contraintes supportées par la structure du dôme.</div>
+                </div>
+
+                <div class="resource-card" onclick="openModal('resource5')">
+                    <div class="resource-number">V</div>
+                    <div class="resource-title">Phénomènes Lumineux</div>
+                    <div class="resource-description">L'oculus et les jeux de lumière extraordinaires créés par cette ouverture unique.</div>
+                </div>
+
+                <div class="resource-card" onclick="openModal('resource6')">
+                    <div class="resource-number">VI</div>
+                    <div class="resource-title">Acoustique Exceptionnelle</div>
+                    <div class="resource-description">Propriétés acoustiques remarquables et leur impact sur l'expérience spirituelle.</div>
+                </div>
+
+                <div class="resource-card" onclick="openModal('resource8')">
+                    <div class="resource-number">VIII</div>
+                    <div class="resource-title">Symbolisme Religieux</div>
+                    <div class="resource-description">Significations spirituelles et transformation du temple païen en église chrétienne.</div>
+                </div>
+
+                <div class="resource-card" onclick="openModal('resource9')">
+                    <div class="resource-number">IX</div>
+                    <div class="resource-title">Influence Architecturale</div>
+                    <div class="resource-description">Impact du Panthéon sur l'architecture mondiale de la Renaissance à nos jours.</div>
+                </div>
+
+                <div class="resource-card" onclick="openModal('resource10')">
+                    <div class="resource-number">X</div>
+                    <div class="resource-title">Conservation Moderne</div>
+                    <div class="resource-description">Techniques de restauration et défis de la préservation contemporaine.</div>
+                </div>
+
+                <div class="resource-card" onclick="openModal('resource11')">
+                    <div class="resource-number">XI</div>
+                    <div class="resource-title">Mystères Architecturaux</div>
+                    <div class="resource-description">Énigmes non résolues et théories sur les techniques de construction.</div>
+                </div>
+
+                <div class="resource-card" onclick="openModal('resource12')">
+                    <div class="resource-number">XII</div>
+                    <div class="resource-title">Art et Décoration</div>
+                    <div class="resource-description">Éléments décoratifs, marbres polychromes et ornements du monument.</div>
+                </div>
+
+                <div class="resource-card" onclick="openModal('resource13')">
+                    <div class="resource-number">XIII</div>
+                    <div class="resource-title">Climat et Environnement</div>
+                    <div class="resource-description">Impact des conditions climatiques et adaptation environnementale du monument.</div>
+                </div>
+
+                <div class="resource-card" onclick="openModal('resource14')">
+                    <div class="resource-number">XIV</div>
+                    <div class="resource-title">Tourisme et Culture</div>
+                    <div class="resource-description">Rôle culturel moderne et impact touristique du Panthéon dans Rome contemporaine.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE MATHÉMATIQUES -->
+        <div id="mathematiques" class="page">
+            <div class="hero-section">
+                <h1 class="hero-title">ANALYSES MATHÉMATIQUES</h1>
+                <p class="hero-subtitle">
+                    Calculs et modélisations des phénomènes physiques du Panthéon
+                </p>
+            </div>
+
             <div class="section">
-                <h2 class="section-title">Objectifs du Projet</h2>
-                <p>Ce projet vise à présenter une analyse complète du Panthéon romain sous plusieurs aspects : architectural, mathématique, physique et historique.</p>
+                <h2 class="section-title">Forces Structurelles</h2>
+                <div class="calculation-box">
+                    <h3>Calcul des Contraintes dans le Dôme</h3>
+                    <p>Le dôme du Panthéon exerce une contrainte de compression radiale. Pour un dôme sphérique de rayon R et d'épaisseur t :</p>
+                    <div class="formula">
+                        σ = (ρ × g × R²) / (2 × t × sin²φ)
+                    </div>
+                    <p>Où :</p>
+                    <p>• σ = contrainte de compression (Pa)</p>
+                    <p>• ρ = densité du béton romain ≈ 1800 kg/m³</p>
+                    <p>• g = accélération gravitationnelle = 9,81 m/s²</p>
+                    <p>• R = rayon du dôme = 21,65 m</p>
+                    <p>• φ = angle depuis le sommet</p>
+                    <p>• t = épaisseur variable (6,2m à la base, 1,2m au sommet)</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Propagation de la Lumière</h2>
+                <div class="calculation-box">
+                    <h3>Calcul de l'Intensité Lumineuse</h3>
+                    <p>L'intensité lumineuse à l'intérieur du Panthéon suit la loi du cosinus de Lambert :</p>
+                    <div class="formula">
+                        I(θ) = I₀ × cos(θ) × (A_oculus / A_totale)
+                    </div>
+                    <p>Avec :</p>
+                    <p>• I₀ = intensité lumineuse extérieure</p>
+                    <p>• θ = angle d'incidence solaire</p>
+                    <p>• A_oculus = π × (4,5)² ≈ 63,6 m²</p>
+                    <p>• A_totale = surface intérieure du dôme ≈ 2953 m²</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Analyse Acoustique</h2>
+                <div class="calculation-box">
+                    <h3>Temps de Réverbération</h3>
+                    <p>Le temps de réverbération selon la formule de Sabine :</p>
+                    <div class="formula">
+                        T₆₀ = 0,161 × V / A
+                    </div>
+                    <p>Où :</p>
+                    <p>• V = volume de la rotonde ≈ 41 250 m³</p>
+                    <p>• A = absorption acoustique totale</p>
+                    <p>• T₆₀ ≈ 8-10 secondes (fréquences moyennes)</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Géométrie Parfaite</h2>
+                <div class="calculation-box">
+                    <h3>Proportions Sacrées</h3>
+                    <p>Le Panthéon respecte le nombre d'or φ = (1 + √5) / 2 ≈ 1,618</p>
+                    <div class="formula">
+                        Hauteur / Diamètre = 43,3 / 43,3 = 1 (sphère parfaite)
+                    </div>
+                    <p>Le rapport entre les différents éléments architecturaux suit souvent les proportions dorées, créant une harmonie visuelle parfaite.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE HISTOIRE -->
+        <div id="histoire" class="page">
+            <div class="hero-section">
+                <h1 class="hero-title">HISTOIRE DE LA CONSTRUCTION</h1>
+                <p class="hero-subtitle">
+                    Chronologie détaillée de la création du monument le plus emblématique de Rome
+                </p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Chronologie de Construction</h2>
+                
+                <div class="timeline-controls">
+                    <button class="timeline-btn active" onclick="showTimelineEvent(0)">27-25 av. J.-C.</button>
+                    <button class="timeline-btn" onclick="showTimelineEvent(1)">80 apr. J.-C.</button>
+                    <button class="timeline-btn" onclick="showTimelineEvent(2)">110 apr. J.-C.</button>
+                    <button class="timeline-btn" onclick="showTimelineEvent(3)">118-128 apr. J.-C.</button>
+                    <button class="timeline-btn" onclick="showTimelineEvent(4)">126 apr. J.-C.</button>
+                    <button class="timeline-btn" onclick="showTimelineEvent(5)">609 apr. J.-C.</button>
+                </div>
+
+                <div class="timeline-graph">
+                    <div class="timeline-line"></div>
+                    
+                    <!-- Point 1: Panthéon d'Agrippa -->
+                    <div class="timeline-point active" style="left: 10%;" onclick="showTimelineEvent(0)">
+                        <div class="timeline-date-label">27-25 av. J.-C.</div>
+                        <div class="timeline-info timeline-info-left show">
+                            <h4>Premier Panthéon d'Agrippa</h4>
+                            <p>Marcus Vipsanius Agrippa, gendre d'Auguste, fait construire le premier Panthéon rectangular dans le Champ de Mars. Ce temple était dédié à tous les dieux de la religion romaine et faisait partie d'un complexe thermal plus vaste.</p>
+                        </div>
+                    </div>
+
+                    <!-- Point 2: Destruction par incendie -->
+                    <div class="timeline-point" style="left: 25%;" onclick="showTimelineEvent(1)">
+                        <div class="timeline-date-label">80 apr. J.-C.</div>
+                        <div class="timeline-info">
+                            <h4>Destruction par Incendie</h4>
+                            <p>Le Panthéon d'Agrippa est détruit lors du grand incendie de Rome sous le règne de l'empereur Titus. Cet incendie ravage une grande partie du Champ de Mars et de nombreux monuments emblématiques.</p>
+                        </div>
+                    </div>
+
+                    <!-- Point 3: Reconstruction Trajan -->
+                    <div class="timeline-point" style="left: 40%;" onclick="showTimelineEvent(2)">
+                        <div class="timeline-date-label">110 apr. J.-C.</div>
+                        <div class="timeline-info">
+                            <h4>Reconstruction sous Trajan</h4>
+                            <p>L'empereur Trajan entreprend une première reconstruction du Panthéon, mais ce nouveau bâtiment sera également détruit, probablement par la foudre vers 110-115 après J.-C.</p>
+                        </div>
+                    </div>
+
+                    <!-- Point 4: Construction Hadrien -->
+                    <div class="timeline-point" style="left: 60%;" onclick="showTimelineEvent(3)">
+                        <div class="timeline-date-label">118-128 apr. J.-C.</div>
+                        <div class="timeline-info">
+                            <h4>Construction du Panthéon Actuel</h4>
+                            <p>L'empereur Hadrien fait construire le Panthéon tel que nous le connaissons aujourd'hui. Contrairement à ses prédécesseurs, Hadrien révolutionne complètement la conception en créant une rotonde surmontée d'un dôme, précédée d'un pronaos traditionnel.</p>
+                        </div>
+                    </div>
+
+                    <!-- Point 5: Consécration -->
+                    <div class="timeline-point" style="left: 75%;" onclick="showTimelineEvent(4)">
+                        <div class="timeline-date-label">126 apr. J.-C.</div>
+                        <div class="timeline-info">
+                            <h4>Consécration</h4>
+                            <p>Le nouveau Panthéon est officiellement consacré. Sa conception révolutionnaire en fait immédiatement l'un des monuments les plus admirés de l'Empire romain. Le bâtiment combine magistralement architecture grecque classique (portique) et innovation romaine (dôme en béton).</p>
+                        </div>
+                    </div>
+
+                    <!-- Point 6: Conversion en église -->
+                    <div class="timeline-point" style="left: 90%;" onclick="showTimelineEvent(5)">
+                        <div class="timeline-date-label">609 apr. J.-C.</div>
+                        <div class="timeline-info timeline-info-right">
+                            <h4>Conversion en Église</h4>
+                            <p>Le pape Boniface IV transforme le Panthéon en église chrétienne dédiée à "Sainte-Marie-aux-Martyrs" (Santa Maria ad Martyres). Cette conversion sauve le monument de la destruction et des pillages qui ont affecté de nombreux autres monuments antiques.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Innovations Techniques</h2>
+                <p>La construction du Panthéon d'Hadrien représente plusieurs révolutions architecturales majeures :</p>
+                
+                <p><strong>Le Béton Romain Révolutionnaire :</strong> Les architectes romains développent une formule de béton (opus caementicium) d'une résistance exceptionnelle. Ce béton utilise de la pouzzolane volcanique de la région de Naples, créant un matériau qui durcit même sous l'eau et gagne en résistance avec le temps.</p>
+
+                <p><strong>Allègement Progressif :</strong> L'épaisseur du dôme diminue progressivement de 6,2 mètres à la base à seulement 1,2 mètre près de l'oculus. De plus, les matériaux utilisés deviennent plus légers vers le sommet : travertin et tuf à la base, puis brique, et enfin pierre ponce près de l'oculus.</p>
+
+                <p><strong>Système de Niches :</strong> Les huit grandes niches alternant avec des édicules plus petits ne sont pas seulement décoratives. Elles allègent considérablement la structure tout en redistribuant les forces de compression du dôme vers les fondations.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Contexte Historique</h2>
+                <p>Le Panthéon d'Hadrien s'inscrit dans une période de prospérité exceptionnelle de l'Empire romain. Hadrien, passionné d'architecture et admirateur de la culture grecque, entreprend de nombreux projets architecturaux durant son règne (117-138 apr. J.-C.).</p>
+
+                <p>Ce monument reflète parfaitement la philosophie architecturale d'Hadrien : allier la grandeur romaine à l'harmonie grecque, créer des espaces à la fois impressionnants et harmonieux. Le Panthéon devient rapidement un modèle d'inspiration pour l'architecture religieuse et civile dans tout l'Empire.</p>
+
+                <p>Sa conservation exceptionnelle s'explique par sa transformation précoce en église chrétienne, lui évitant le sort de nombreux temples païens détruits ou abandonnés lors de la christianisation de l'Empire romain.</p>
             </div>
         </div>
 
@@ -748,477 +1693,1129 @@
         <div id="contact" class="page">
             <div class="hero-section">
                 <h1 class="hero-title">CONTACTEZ-NOUS</h1>
-                <p class="hero-subtitle">Nous sommes là pour vous aider et répondre à vos questions sur le Panthéon</p>
+                <p class="hero-subtitle">
+                    Nous sommes là pour vous aider et répondre à vos questions sur le Panthéon
+                </p>
             </div>
+
+
+
+            <div class="section">
+                <h2 class="section-title">Envoyez-nous un Message</h2>
+                
+                <div class="contact-form-container">
+                    <form action="https://formspree.io/f/movwobba" method="POST" id="contactForm" class="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="prenom">Prénom *</label>
+                                <input type="text" id="prenom" name="prenom" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="nom">Nom *</label>
+                                <input type="text" id="nom" name="nom" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telephone">Téléphone</label>
+                            <input type="tel" id="telephone" name="telephone" placeholder="+33 1 23 45 67 89">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sujet">Sujet de votre demande *</label>
+                            <select id="sujet" name="sujet" required>
+                                <option value="">Sélectionnez un sujet</option>
+                                <option value="information">Demande d'information générale</option>
+                                <option value="visite">Organiser une visite guidée</option>
+                                <option value="groupe">Visite de groupe</option>
+                                <option value="evenement">Événement privé</option>
+                                <option value="education">Programme éducatif</option>
+                                <option value="presse">Demande presse/média</option>
+                                <option value="partenariat">Partenariat</option>
+                                <option value="recherche">Recherche académique</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" name="message" rows="6" placeholder="Décrivez votre demande en détail..." required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="newsletter" id="newsletter">
+                                <span class="checkmark"></span>
+                                Je souhaite recevoir la newsletter avec les actualités du Panthéon
+                            </label>
+                        </div>
+
+                        <!-- Champs cachés pour Formspree -->
+                        <input type="hidden" name="_captcha" value="false">
+
+                        <button type="submit" class="submit-btn">
+                            <span class="btn-text">Envoyer le message</span>
+                            <span class="btn-loading">Envoi en cours...</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
             <div class="section">
                 <h2 class="section-title">Informations Pratiques</h2>
-                <p><strong>Adrian :</strong> Adrian.orte@studentfr.ch</p>
-                <p><strong>Almir :</strong> Almir.Dzaferi@studentfr.ch</p>
-                <p><strong>Maxime :</strong> Maxime.genoud01@studentfr.ch</p>
+                
+                <div class="practical-info">
+                    <div class="info-block">
+                        <h3>Travail</h3>
+                        <p><strong>Site internet :</strong> Almir Dzaferi</p>
+                        <p><strong>Maquette :</strong> Maxime Genoud</p>
+                        <p><strong>Administration + Serveur :</strong> Adrian Orte</p>
+                    </div>
+
+                    <div class="info-block">
+                        <h3>Maquette</h3>
+                        <p><strong>Materiaux :</strong> PLA</p>
+                        <p><strong>Methode :</strong> Impression 3D</p>
+                        <p><strong>Outil :</strong> Cura</p>
+                        <p><strong>Logiciel :</strong> Fusion360</p>
+                    </div>
+
+                    <div class="info-block">
+                        <h3>Personnes</h3>
+                        <p><strong>Adrian :</strong> Adrian.orte@studentfr.ch</p>
+                        <p><strong>Almir :</strong> Almir.Dzaferi@studentfr.ch</p>
+                        <p><strong>Maxime :</strong> Maxime.genoud01@studentfr.ch</p>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
 
+    <!-- MODALES POUR LES RESSOURCES -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+                <h2 class="modal-title" id="modal-title"></h2>
+                <p class="modal-subtitle" id="modal-subtitle"></p>
+            </div>
+            <div class="modal-body" id="modal-body"></div>
+        </div>
+    </div>
+
     <script>
-        // Configuration avec clé API pré-configurée
-        const config = {
-            apiKey: 'AIzaSyB_m6G8sLiuuCOuL2rW82qbw9BsehRqGHA', // Votre clé API
-            spreadsheetId: '1QJTrxamkueykp17b-C7oXNs4K_Za9Yzwc0W3w3aEVKg',
-            range: 'Réponses au formulaire 1!A2:P1000',
-            formUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSfGayNMjCSxp2tSjWkvGsbgdycF1WNVBUbXxtgq6-irA_sjBw/viewform?usp=dialog'
-        };
-
-        // Colonnes du Google Sheet
-        const COLUMNS = {
-            HORODATEUR: 0,
-            TITRE: 1,
-            AUTEUR: 2,
-            ANNEE: 3,
-            JOURNAL: 4,
-            VOLUME: 5,
-            PAGES: 6,
-            DOI: 7,
-            ISBN: 8,
-            CATEGORIE: 9,
-            ETIQUETTES: 10,
-            URL: 11,
-            RESUME: 12,
-            NOTES: 13
-        };
-
-        let allDocuments = [];
-        let isInitialized = false;
-        let expandedDoc = null;
-
-        // Initialisation
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Page chargée, initialisation...');
-            
-            // Event listeners
-            document.getElementById('searchInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    console.log('Recherche lancée');
-                    loadDocuments();
-                }
-            });
-
-            // Event listeners pour les filtres
-            document.getElementById('categoryFilter').addEventListener('change', function() {
-                console.log('Filtre catégorie changé');
-                loadDocuments();
-            });
-            
-            document.getElementById('yearFilter').addEventListener('change', function() {
-                console.log('Filtre année changé');
-                loadDocuments();
-            });
-            
-            let authorTimeout;
-            document.getElementById('authorFilter').addEventListener('input', function() {
-                clearTimeout(authorTimeout);
-                authorTimeout = setTimeout(() => {
-                    console.log('Filtre auteur changé');
-                    loadDocuments();
-                }, 500);
-            });
-
-            // Initialiser l'app
-            initializeApp();
-        });
-
-        async function initializeApp() {
-            console.log('Initialisation de l\'app...');
-            try {
-                await testConnection();
-                console.log('Connexion réussie');
-                await loadDashboard();
-                console.log('Dashboard chargé');
-                isInitialized = true;
-                updateStatus('Base de données connectée', true);
-                
-                // Charger automatiquement les documents si on est sur la page bibliographie
-                if (document.getElementById('bibliographie').classList.contains('active')) {
-                    console.log('Chargement automatique des documents');
-                    await loadDocuments();
-                }
-            } catch (error) {
-                updateStatus('Erreur de connexion à la base', false);
-                console.error('Erreur d\'initialisation:', error);
-                
-                // Afficher l'erreur dans le container
-                const container = document.getElementById('documentsContainer');
-                if (container) {
-                    container.innerHTML = `<div class="bib-alert bib-alert-error">Erreur de connexion: ${error.message}</div>`;
-                }
-            }
-        }
-
-        function updateStatus(message, connected) {
-            document.getElementById('statusText').textContent = message;
-            const indicator = document.getElementById('statusIndicator');
-            indicator.className = `bib-status-indicator ${connected ? 'bib-status-connected' : 'bib-status-disconnected'}`;
-        }
-
         // Navigation entre les pages
         function showPage(pageId) {
-            console.log('Navigation vers:', pageId);
-            
-            // Masquer toutes les pages
             const pages = document.querySelectorAll('.page');
             pages.forEach(page => page.classList.remove('active'));
             
-            // Afficher la page cible
             const targetPage = document.getElementById(pageId);
             if (targetPage) {
                 targetPage.classList.add('active');
-                console.log('Page affichée:', pageId);
-            } else {
-                console.error('Page non trouvée:', pageId);
             }
             
-            // Réinitialiser tous les liens de navigation
             const navLinks = document.querySelectorAll('.nav-link');
             navLinks.forEach(link => link.classList.remove('active'));
             
-            // Activer le bon lien - recherche par onclick au lieu de classe
-            const activeLink = document.querySelector(`[onclick*="showPage('${pageId}')"]`);
+            const activeLink = document.querySelector(`[onclick="showPage('${pageId}')"]`);
             if (activeLink) {
                 activeLink.classList.add('active');
-                console.log('Lien activé pour:', pageId);
-            } else {
-                console.error('Lien non trouvé pour:', pageId);
             }
+        }
 
-            // Charger les données si on va sur la bibliographie
-            if (pageId === 'bibliographie' && isInitialized) {
-                console.log('Chargement des documents pour la bibliographie');
+        // Système de modales pour les ressources
+        function openModal(resourceId) {
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalSubtitle = document.getElementById('modal-subtitle');
+            const modalBody = document.getElementById('modal-body');
+            
+            const resourceData = getResourceData(resourceId);
+            
+            modalTitle.textContent = resourceData.title;
+            modalSubtitle.textContent = resourceData.subtitle;
+            modalBody.innerHTML = resourceData.content;
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Fonction pour gérer la timeline interactive
+        function showTimelineEvent(index) {
+            const allInfos = document.querySelectorAll('.timeline-info');
+            const allPoints = document.querySelectorAll('.timeline-point');
+            const allBtns = document.querySelectorAll('.timeline-btn');
+            
+            allInfos.forEach(info => info.classList.remove('show'));
+            allPoints.forEach(point => point.classList.remove('active'));
+            allBtns.forEach(btn => btn.classList.remove('active'));
+            
+            if (allInfos[index]) {
+                allInfos[index].classList.add('show');
+            }
+            if (allPoints[index]) {
+                allPoints[index].classList.add('active');
+            }
+            if (allBtns[index]) {
+                allBtns[index].classList.add('active');
+            }
+        }
+
+        // Gestion du formulaire de contact
+        // Gestion du formulaire de contact
+function handleContactForm() {
+    const contactForm = document.getElementById('contactForm');
+    
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            // EMPÊCHER la redirection par défaut
+            e.preventDefault();
+            
+            const button = this.querySelector('.submit-btn');
+            const form = this;
+            
+            // Affichage du loading
+            button.classList.add('loading');
+            button.disabled = true;
+            
+            // Préparer les données du formulaire
+            const formData = new FormData(form);
+            formData.append('_subject', 'Nouvelle demande de contact - Panthéon');
+            
+            // Envoi AJAX vers Formspree
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    // SUCCÈS - Pas de redirection !
+                    button.innerHTML = '<span class="btn-text">✅ Message envoyé !</span>';
+                    button.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
+                    form.reset();
+                    showSuccessMessage();
+                } else {
+                    throw new Error('Erreur serveur');
+                }
+            }).catch(error => {
+                // ERREUR
+                button.innerHTML = '<span class="btn-text">❌ Erreur - Réessayer</span>';
+                button.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
+            }).finally(() => {
+                // Restaurer le bouton après 5 secondes
+                setTimeout(() => {
+                    button.innerHTML = '<span class="btn-text">Envoyer le message</span><span class="btn-loading">Envoi en cours...</span>';
+                    button.style.background = 'linear-gradient(135deg, #d4af37, #f4d03f)';
+                    button.classList.remove('loading');
+                    button.disabled = false;
+                }, 5000);
+            });
+        });
+    }
+}
+
+// Afficher un message de succès
+function showSuccessMessage() {
+    const notification = document.createElement('div');
+    notification.innerHTML = `
+        <div style="
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #27ae60;
+            color: white;
+            padding: 1.2rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            z-index: 3000;
+            animation: slideIn 0.5s ease-out;
+            font-weight: 600;
+        ">
+            ✅ Message envoyé ! Nous vous répondrons rapidement.
+        </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease-in forwards';
+        setTimeout(() => notification.remove(), 300);
+    }, 5000);
+}
+
+        // Données des ressources
+        function getResourceData(resourceId) {
+            const resources = {
+                resource1: {
+                    title: "Architecture et Construction",
+                    subtitle: "Techniques révolutionnaires de construction du Panthéon",
+                    content: `
+                    <div class="wiki-infobox">
+                        <h3>Fiche Technique</h3>
+                        <table>
+                            <tr><td>Type</td><td>Temple romain</td></tr>
+                            <tr><td>Architecte</td><td>Empereur Hadrien</td></tr>
+                            <tr><td>Commanditaire</td><td>Empereur Hadrien</td></tr>
+                            <tr><td>Matériau principal</td><td>Béton romain (opus caementicium)</td></tr>
+                            <tr><td>Technique</td><td>Dôme autoportant</td></tr>
+                            <tr><td>Durée construction</td><td>10 ans (118-128 apr. J.-C.)</td></tr>
+                            <tr><td>Coût estimé</td><td>25 millions de sesterces</td></tr>
+                            <tr><td>Ouvriers</td><td>≈ 3000 artisans</td></tr>
+                        </table>
+                    </div>
+                    
+                    <img src="https://www.amoromatour.com/wp-content/uploads/2021/10/Pantheon_facade.jpg" 
+                         class="wiki-image" alt="Façade du Panthéon romain" />
+                    
+                    <div class="wiki-section">
+                        <h3>Introduction</h3>
+                        <p>L'architecture du Panthéon représente l'apogée de l'ingénierie romaine au IIe siècle après J.-C. Ce monument révolutionnaire combine parfaitement l'esthétique classique grecque et l'innovation technique romaine, créant une structure qui a inspiré l'architecture mondiale pendant près de deux millénaires.</p>
+                        
+                        <p>Commandé par l'empereur Hadrien vers 118 apr. J.-C., le Panthéon actuel remplace un temple antérieur construit par Agrippa. Sa conception marque une rupture architecturale majeure avec les temples romains traditionnels, introduisant des concepts révolutionnaires qui ne seront égalés qu'à la Renaissance.</p>
+                    </div>
+                    
+                    <div class="wiki-section">
+                        <h3>Innovations Techniques Majeures</h3>
+                        
+                        <h4>Le Béton Romain Révolutionnaire</h4>
+                        <p>L'utilisation du béton romain (opus caementicium) constitue la clé de voûte de cette prouesse architecturale. Cette technique permet de créer des structures monolithiques d'une résistance exceptionnelle. Le béton du Panthéon utilise de la pouzzolane volcanique des environs de Naples, lui conférant des propriétés uniques :</p>
+                        
+                        <ul>
+                            <li><strong>Durcissement hydraulique :</strong> Le matériau se solidifie même en présence d'eau</li>
+                            <li><strong>Résistance croissante :</strong> Il gagne en solidité avec le temps</li>
+                            <li><strong>Flexibilité structurelle :</strong> Capacité d'absorption des contraintes</li>
+                            <li><strong>Durabilité exceptionnelle :</strong> Résistance aux intempéries sur 2000 ans</li>
+                        </ul>
+                    
+                        <h4>Allègement Progressif</h4>
+                        <p>L'ingéniosité des architectes romains se manifeste dans la variation progressive de l'épaisseur et de la densité du dôme :</p>
+                        
+                        <ul>
+                            <li><strong>Base (niveau sol) :</strong> 6,2 mètres d'épaisseur - travertin et tuf</li>
+                            <li><strong>Partie médiane :</strong> 3,5 mètres d'épaisseur - briques et mortier</li>
+                            <li><strong>Sommet (oculus) :</strong> 1,2 mètre d'épaisseur - pierre ponce</li>
+                        </ul>
+                        
+                        <p>Cette technique réduit le poids total du dôme de 40% par rapport à une structure uniforme, tout en maintenant sa résistance structurelle.</p>
+                    
+                        <h4>Système de Décharge Architectural</h4>
+                        <p>Les huit grandes niches alternant avec des édicules plus petits ne sont pas seulement décoratives. Elles constituent un ingénieux système de décharge qui :</p>
+                        
+                        <ul>
+                            <li>Redistribue les forces de compression vers huit points d'appui principaux</li>
+                            <li>Allège la masse des murs de 30%</li>
+                            <li>Crée des espaces pour l'expansion thermique</li>
+                            <li>Permet une ventilation naturelle de la structure</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="wiki-section">
+                        <h3>Processus de Construction</h3>
+                        
+                        <h4>Phase I : Fondations Colossales (118-120 apr. J.-C.)</h4>
+                        <p>Les fondations du Panthéon constituent une prouesse technique à elles seules. D'une profondeur de 4,5 mètres et d'un diamètre de 58 mètres, elles sont constituées d'un béton de travertin coulé en anneaux concentriques. Cette base exceptionnellement large était nécessaire pour supporter les 4500 tonnes du dôme sans tassement différentiel.</p>
+                    
+                        <h4>Phase II : Rotonde Cylindrique (120-125 apr. J.-C.)</h4>
+                        <p>La construction de la rotonde cylindrique s'effectue par couches successives de béton coulé dans des coffrages en bois. Les murs, épais de 6,2 mètres, intègrent progressivement les niches et passages qui allègent la structure. Chaque couche doit sécher complètement avant le coulage suivant.</p>
+                    
+                        <h4>Phase III : Dôme Révolutionnaire (125-128 apr. J.-C.)</h4>
+                        <p>Le dôme est construit sur un échafaudage central complexe en bois de chêne. Le béton est coulé en anneaux concentriques horizontaux, chaque anneau étant moins épais et plus léger que le précédent. L'oculus de 9 mètres de diamètre est ménagé au sommet par un coffrage circulaire.</p>
+                    </div>
+                    
+                    <div class="wiki-gallery">
+                        <img src="https://media.destinationrome.fr/resize/uploads/sites/4/2016/08/Pantheon-Rome-Richjheath-scaled-1200x800.jpg?format=auto" 
+                             alt="Intérieur du dôme avec caissons" />
+                        <img src="https://cdn.pixabay.com/photo/2017/07/09/09/42/rome-2486521_1280.jpg" 
+                             alt="Détail des colonnes corinthiennes" />
+                        <img src="https://i.redd.it/nda2cddxe5v81.jpg" 
+                             alt="Oculus et jeu de lumière" />
+                        <img src="https://pbs.twimg.com/media/FttqXnqWYAAgvpO.jpg" 
+                             alt="Portique d'entrée" />
+                    </div>
+                    
+                    <div class="wiki-section">
+                        <h3>Impact Architectural</h3>
+                        <p>Le Panthéon révolutionne l'architecture de son époque et influence durablement l'art de bâtir. Ses innovations se retrouvent dans :</p>
+                        
+                        <ul>
+                            <li><strong>Architecture byzantine :</strong> Sainte-Sophie de Constantinople</li>
+                            <li><strong>Renaissance italienne :</strong> Villa Rotonda de Palladio</li>
+                            <li><strong>Architecture néoclassique :</strong> Jefferson Memorial, Panthéon parisien</li>
+                            <li><strong>Architecture moderne :</strong> Techniques de béton armé contemporaines</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="wiki-section">
+                        <h3>Données Techniques Modernes</h3>
+                        <p>Les analyses contemporaines révèlent des performances remarquables :</p>
+                        
+                        <ul>
+                            <li><strong>Résistance à la compression :</strong> 40-60 MPa (équivalent béton moderne)</li>
+                            <li><strong>Facteur de sécurité :</strong> 15-20 (largement surdimensionné)</li>
+                            <li><strong>Contraintes maximales :</strong> 3,2 MPa (très inférieures à la limite)</li>
+                            <li><strong>Déformation mesurée :</strong> < 2 mm depuis 2000 ans</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="wiki-references">
+                        <h3>Références Bibliographiques</h3>
+                        <ol>
+                            <li>MacDonald, William L. <em>"The Architecture of the Roman Empire II: An Urban Appraisal"</em>. Yale University Press, 1986.</li>
+                            <li>Mark, Robert et Paul Hutchinson. <em>"On the Structure of the Roman Pantheon"</em>. Art Bulletin 68, no. 1, 1986, pp. 24-34.</li>
+                            <li>Wilson Jones, Mark. <em>"Principles of Roman Architecture"</em>. Yale University Press, 2000.</li>
+                            <li>Lancaster, Lynne C. <em>"Concrete Vaulted Construction in Imperial Rome: Innovations in Context"</em>. Cambridge University Press, 2005.</li>
+                            <li>Heyman, Jacques. <em>"The Stone Skeleton: Structural Engineering of Masonry Architecture"</em>. Cambridge University Press, 1995.</li>
+                            <li>Moore, David. <em>"The Roman Pantheon: The Triumph of Concrete"</em>. Princeton University Press, 1999.</li>
+                            <li>Hopkins, John North. <em>"The Genesis of Roman Architecture"</em>. Yale University Press, 2016.</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="wiki-section">
+                        <h3>Voir Aussi</h3>
+                        <ul>
+                            <li><a href="#" onclick="openModal('resource3')">→ Matériaux Révolutionnaires</a></li>
+                            <li><a href="#" onclick="openModal('resource4')">→ Ingénierie Structurelle</a></li>
+                            <li><a href="#" onclick="openModal('resource7')">→ Histoire Antique</a></li>
+                        </ul>
+                    </div>
+                    `
+                },
+                resource2: {
+                    title: "Géométrie Sacrée",
+                    subtitle: "Proportions parfaites et symbolisme mathématique",
+                    content: `
+                        <img src="https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=800&q=80" class="wiki-image" alt="Géométrie sacrée" />
+                        <div class="wiki-section">
+                            <h3>La Perfection Géométrique</h3>
+                            <p>Le Panthéon incarne la recherche romaine de la perfection géométrique avec des proportions mathématiques rigoureuses.</p>
+                        </div>
+                    `
+                },
+                resource3: {
+                    title: "Matériaux Révolutionnaires",
+                    subtitle: "Le béton romain et ses propriétés exceptionnelles",
+                    content: `
+                        <img src="https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?auto=format&fit=crop&w=800&q=80" class="wiki-image" alt="Matériaux" />
+                        <div class="wiki-section">
+                            <h3>La Révolution du Béton Romain</h3>
+                            <p>Le béton utilisé dans la construction du Panthéon représente l'une des plus grandes innovations technologiques de l'Antiquité.</p>
+                        </div>
+                    `
+                },
+                resource4: {
+                    title: "Ingénierie Structurelle",
+                    subtitle: "Forces et contraintes dans la structure du dôme",
+                    content: `
+                        <img src="https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=800&q=80" class="wiki-image" alt="Structure" />
+                        <div class="wiki-section">
+                            <h3>Principe Structurel</h3>
+                            <p>L'ingénierie structurelle du Panthéon repose sur des principes révolutionnaires pour l'époque.</p>
+                        </div>
+                    `
+                },
+                resource5: {
+                    title: "Phénomènes Lumineux",
+                    subtitle: "L'oculus et les jeux de lumière extraordinaires",
+                    content: `
+                        <img src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=800&q=80" class="wiki-image" alt="Lumière" />
+                        <div class="wiki-section">
+                            <h3>L'Oculus : Fenêtre vers le Cosmos</h3>
+                            <p>L'oculus du Panthéon constitue l'un des éléments les plus remarquables de l'architecture antique.</p>
+                        </div>
+                    `
+                },
+                resource6: {
+                    title: "Acoustique Exceptionnelle",
+                    subtitle: "Propriétés acoustiques et expérience spirituelle",
+                    content: `
+                        <img src="https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?auto=format&fit=crop&w=800&q=80" class="wiki-image" alt="Acoustique" />
+                        <div class="wiki-section">
+                            <h3>Un Amphithéâtre Spirituel</h3>
+                            <p>L'acoustique du Panthéon transforme cet espace architectural en véritable instrument de musique géant.</p>
+                        </div>
+                    `
+                },
+                resource7: {
+                    title: "Histoire Antique",
+                    subtitle: "Contexte historique et évolution du monument",
+                    content: `
+                        <img src="https://images.unsplash.com/photo-1539650116574-75c0c6d73ab2?auto=format&fit=crop&w=800&q=80" class="wiki-image" alt="Histoire" />
+                        <div class="wiki-section">
+                            <h3>L'Époque d'Hadrien</h3>
+                            <p>Construit sous l'empereur Hadrien, le Panthéon s'inscrit dans une période de prospérité exceptionnelle.</p>
+                        </div>
+                    `
+                },
+                resource8: {
+                    title: "Symbolisme Religieux",
+                    subtitle: "Transformation spirituelle du monument",
+                    content: `
+                        <img src="https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=800&q=80" class="wiki-image" alt="Religion" />
+                        <div class="wiki-section">
+                            <h3>De Temple Païen à Église Chrétienne</h3>
+                            <p>En 609 apr. J.-C., le pape Boniface IV transforme le Panthéon en église chrétienne.</p>
+                        </div>
+                    `
+                },
+                resource9: {
+                    title: "Influence Architecturale",
+                    subtitle: "Impact sur l'architecture mondiale",
+                    content: `
+                        <img src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=800&q=80" class="wiki-image" alt="Influence" />
+                        <div class="wiki-section">
+                            <h3>Héritage Architectural</h3>
+                            <p>Le Panthéon a inspiré de nombreux architectes de la Renaissance à nos jours.</p>
+                        </div>
+                    `
+                },
+                resource10: {
+                    title: "Conservation Moderne",
+                    subtitle: "Préservation contemporaine du monument",
+                    content: `
+                        <img src="https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?auto=format&fit=crop&w=800&q=80" class="wiki-image" alt="Conservation" />
+                        <div class="wiki-section">
+                            <h3>Défis de la Conservation</h3>
+                            <p>La préservation du Panthéon pose des défis techniques uniques.</p>
+                        </div>
+                    `
+                },
+                resource11: {
+                    title: "Mystères Architecturaux",
+                    subtitle: "Énigmes non résolues de la construction",
+                    content: `
+                        <img src="https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=800&q=80" class="wiki-image" alt="Mystères" />
+                        <div class="wiki-section">
+                            <h3>Énigmes Persistantes</h3>
+                            <p>Malgré des siècles d'études, certains aspects de la construction demeurent mystérieux.</p>
+                        </div>
+                    `
+                },
+                resource12: {
+                    title: "Art et Décoration",
+                    subtitle: "Éléments décoratifs et ornements",
+                    content: `
+                        <img src="https://images.unsplash.com/photo-1539650116574-75c0c6d73ab2?auto=format&fit=crop&w=800&q=80" class="wiki-image" alt="Art" />
+                        <div class="wiki-section">
+                            <h3>Richesse Décorative</h3>
+                            <p>Les marbres polychromes et les éléments décoratifs témoignent du raffinement artistique romain.</p>
+                        </div>
+                    `
+                },
+                resource13: {
+                    title: "Climat et Environnement",
+                    subtitle: "Adaptation environnementale du monument",
+                    content: `
+                        <img src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=800&q=80" class="wiki-image" alt="Environnement" />
+                        <div class="wiki-section">
+                            <h3>Adaptation Climatique</h3>
+                            <p>L'oculus ouvert expose l'intérieur aux intempéries, créant un équilibre naturel unique.</p>
+                        </div>
+                    `
+                },
+                resource14: {
+                    title: "Tourisme et Culture",
+                    subtitle: "Rôle culturel dans Rome moderne",
+                    content: `
+                        <img src="https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?auto=format&fit=crop&w=800&q=80" class="wiki-image" alt="Tourisme" />
+                        <div class="wiki-section">
+                            <h3>Monument Vivant</h3>
+                            <p>Aujourd'hui, le Panthéon attire des millions de visiteurs annuellement.</p>
+                        </div>
+                    `
+                }
+            };
+            
+            return resources[resourceId] || {
+                title: "Ressource non trouvée",
+                subtitle: "",
+                content: "<p>Cette ressource n'est pas disponible.</p>"
+            };
+        }
+
+        // Événements
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        document.getElementById('modal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeModal();
+            }
+        });
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            showPage('accueil');
+            handleContactForm();
+        });
+    </script>
+    <div id="bibliographie" class="page">
+        <div class="hero-section">
+            <h1 class="hero-title">📚 BASE BIBLIOGRAPHIQUE</h1>
+            <p class="hero-subtitle">
+                Collection scientifique et documentaire sur le Panthéon romain
+            </p>
+        </div>
+
+        <div class="section">
+            <div class="bib-stats">
+                <div class="bib-stat-card">
+                    <div class="bib-stat-number" id="totalDocs">-</div>
+                    <div class="bib-stat-label">Documents</div>
+                </div>
+                <div class="bib-stat-card">
+                    <div class="bib-stat-number" id="totalCategories">-</div>
+                    <div class="bib-stat-label">Catégories</div>
+                </div>
+                <div class="bib-stat-card">
+                    <div class="bib-stat-number" id="totalTags">-</div>
+                    <div class="bib-stat-label">Étiquettes</div>
+                </div>
+                <div class="bib-stat-card">
+                    <div class="bib-stat-number" id="recentDocs">-</div>
+                    <div class="bib-stat-label">Ce mois</div>
+                </div>
+            </div>
+
+            <div class="bib-alert bib-alert-info">
+                <span class="bib-status-indicator bib-status-connected" id="statusIndicator"></span>
+                <span id="statusText">Connexion à la base de données...</span>
+            </div>
+        </div>
+
+        <div class="bib-search-section">
+            <h2 class="section-title">🔍 Recherche Documentaire</h2>
+            <div class="bib-search-bar">
+                <input type="text" class="bib-search-input" id="searchInput" placeholder="Rechercher par titre, auteur, mot-clé...">
+                <button class="bib-btn bib-btn-primary" onclick="loadDocuments()">Rechercher</button>
+                <button class="bib-btn bib-btn-secondary" onclick="clearFilters()">Effacer</button>
+            </div>
+            <div class="bib-filters">
+                <select class="bib-filter-select" id="categoryFilter">
+                    <option value="">Toutes les catégories</option>
+                </select>
+                <select class="bib-filter-select" id="yearFilter">
+                    <option value="">Toutes les années</option>
+                </select>
+                <input type="text" class="bib-filter-select" id="authorFilter" placeholder="Filtrer par auteur">
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">➕ Ajouter un Document</h2>
+            <p style="margin-bottom: 1rem; opacity: 0.9;">Utilisez le formulaire Google pour enrichir la base bibliographique :</p>
+            <button class="bib-btn bib-btn-primary" onclick="openGoogleForm()">
+                📝 Ouvrir le Formulaire d'Ajout
+            </button>
+        </div>
+
+        <div id="documentsContainer" class="bib-documents-container">
+            <div class="bib-loading">Chargement de la bibliographie...</div>
+        </div>
+    </div>
+
+    <!-- Autres pages existantes... (projet, ressources, etc.) -->
+    <div id="projet" class="page">
+        <div class="hero-section">
+            <h1 class="hero-title">LE PROJET PANTHÉON</h1>
+            <p class="hero-subtitle">Une exploration multidisciplinaire de l'un des monuments les plus fascinants de l'Antiquité</p>
+        </div>
+        <div class="section">
+            <h2 class="section-title">Objectifs du Projet</h2>
+            <p>Ce projet vise à présenter une analyse complète du Panthéon romain sous plusieurs aspects : architectural, mathématique, physique et historique.</p>
+        </div>
+    </div>
+
+    <!-- PAGE CONTACT -->
+    <div id="contact" class="page">
+        <div class="hero-section">
+            <h1 class="hero-title">CONTACTEZ-NOUS</h1>
+            <p class="hero-subtitle">Nous sommes là pour vous aider et répondre à vos questions sur le Panthéon</p>
+        </div>
+        <div class="section">
+            <h2 class="section-title">Informations Pratiques</h2>
+            <p><strong>Adrian :</strong> Adrian.orte@studentfr.ch</p>
+            <p><strong>Almir :</strong> Almir.Dzaferi@studentfr.ch</p>
+            <p><strong>Maxime :</strong> Maxime.genoud01@studentfr.ch</p>
+        </div>
+    </div>
+</main>
+
+<script>
+    // Configuration avec clé API pré-configurée
+    const config = {
+        apiKey: 'AIzaSyB_m6G8sLiuuCOuL2rW82qbw9BsehRqGHA',
+        spreadsheetId: '1QJTrxamkueykp17b-C7oXNs4K_Za9Yzwc0W3w3aEVKg',
+        range: 'Réponses au formulaire 1!A2:P1000',
+        formUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSfGayNMjCSxp2tSjWkvGsbgdycF1WNVBUbXxtgq6-irA_sjBw/viewform?usp=dialog'
+    };
+
+    // Colonnes du Google Sheet
+    const COLUMNS = {
+        HORODATEUR: 0,
+        TITRE: 1,
+        AUTEUR: 2,
+        ANNEE: 3,
+        JOURNAL: 4,
+        VOLUME: 5,
+        PAGES: 6,
+        DOI: 7,
+        ISBN: 8,
+        CATEGORIE: 9,
+        ETIQUETTES: 10,
+        URL: 11,
+        RESUME: 12,
+        NOTES: 13
+    };
+
+    let allDocuments = [];
+    let isInitialized = false;
+    let expandedDoc = null;
+
+    // Initialisation
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Page chargée, initialisation...');
+        
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                console.log('Recherche lancée');
                 loadDocuments();
             }
-        }
+        });
 
-        async function testConnection() {
-            const sheetName = encodeURIComponent('Réponses au formulaire 1');
-            const response = await fetch(
-                `https://sheets.googleapis.com/v4/spreadsheets/${config.spreadsheetId}/values/${sheetName}!A1:B2?key=${config.apiKey}`
-            );
+        // Event listeners pour les filtres
+        document.getElementById('categoryFilter').addEventListener('change', function() {
+            console.log('Filtre catégorie changé');
+            loadDocuments();
+        });
+        
+        document.getElementById('yearFilter').addEventListener('change', function() {
+            console.log('Filtre année changé');
+            loadDocuments();
+        });
+        
+        let authorTimeout;
+        document.getElementById('authorFilter').addEventListener('input', function() {
+            clearTimeout(authorTimeout);
+            authorTimeout = setTimeout(() => {
+                console.log('Filtre auteur changé');
+                loadDocuments();
+            }, 500);
+        });
+
+        // Initialiser l'app
+        initializeApp();
+    });
+
+    async function initializeApp() {
+        console.log('Initialisation de l\'app...');
+        try {
+            await testConnection();
+            console.log('Connexion réussie');
+            await loadDashboard();
+            console.log('Dashboard chargé');
+            isInitialized = true;
+            updateStatus('Base de données connectée', true);
             
-            if (!response.ok) {
-                throw new Error('Connexion échouée');
+            // Charger automatiquement les documents si on est sur la page bibliographie
+            if (document.getElementById('bibliographie').classList.contains('active')) {
+                console.log('Chargement automatique des documents');
+                await loadDocuments();
             }
+        } catch (error) {
+            updateStatus('Erreur de connexion à la base', false);
+            console.error('Erreur d\'initialisation:', error);
             
-            return response.json();
-        }
-
-        async function loadDocuments() {
-            console.log('Chargement des documents...');
+            // Afficher l'erreur dans le container
             const container = document.getElementById('documentsContainer');
-            
-            if (!container) {
-                console.error('Container documents non trouvé');
-                return;
-            }
-            
-            container.innerHTML = '<div class="bib-loading">Chargement des documents...</div>';
-
-            try {
-                const sheetName = encodeURIComponent('Réponses au formulaire 1');
-                const url = `https://sheets.googleapis.com/v4/spreadsheets/${config.spreadsheetId}/values/${sheetName}!A2:P1000?key=${config.apiKey}`;
-                console.log('URL de requête:', url);
-                
-                const response = await fetch(url);
-                console.log('Statut de la réponse:', response.status);
-                
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    console.error('Erreur API:', errorData);
-                    throw new Error(`Erreur ${response.status}: ${errorData.error?.message || 'Erreur inconnue'}`);
-                }
-
-                const data = await response.json();
-                console.log('Données reçues:', data);
-                
-                allDocuments = data.values || [];
-                console.log('Nombre de documents:', allDocuments.length);
-                
-                // Appliquer les filtres
-                let filteredDocs = filterDocuments(allDocuments);
-                console.log('Documents filtrés:', filteredDocs.length);
-                
-                displayDocuments(filteredDocs);
-                updateFilters();
-                
-            } catch (error) {
-                console.error('Erreur lors du chargement:', error);
-                container.innerHTML = `<div class="bib-alert bib-alert-error">Erreur: ${error.message}<br><small>Vérifiez la console pour plus de détails</small></div>`;
+            if (container) {
+                container.innerHTML = `<div class="bib-alert bib-alert-error">Erreur de connexion: ${error.message}</div>`;
             }
         }
+    }
 
-        function filterDocuments(documents) {
-            const searchTerm = document.getElementById('searchInput')?.value.toLowerCase() || '';
-            const categoryFilter = document.getElementById('categoryFilter')?.value || '';
-            const yearFilter = document.getElementById('yearFilter')?.value || '';
-            const authorFilter = document.getElementById('authorFilter')?.value.toLowerCase() || '';
+    function updateStatus(message, connected) {
+        document.getElementById('statusText').textContent = message;
+        const indicator = document.getElementById('statusIndicator');
+        indicator.className = `bib-status-indicator ${connected ? 'bib-status-connected' : 'bib-status-disconnected'}`;
+    }
 
-            return documents.filter(doc => {
-                const matchesSearch = !searchTerm || 
-                    (doc[COLUMNS.TITRE] && doc[COLUMNS.TITRE].toLowerCase().includes(searchTerm)) ||
-                    (doc[COLUMNS.AUTEUR] && doc[COLUMNS.AUTEUR].toLowerCase().includes(searchTerm)) ||
-                    (doc[COLUMNS.ETIQUETTES] && doc[COLUMNS.ETIQUETTES].toLowerCase().includes(searchTerm)) ||
-                    (doc[COLUMNS.RESUME] && doc[COLUMNS.RESUME].toLowerCase().includes(searchTerm));
-                
-                const matchesCategory = !categoryFilter || doc[COLUMNS.CATEGORIE] === categoryFilter;
-                const matchesYear = !yearFilter || doc[COLUMNS.ANNEE] === yearFilter;
-                const matchesAuthor = !authorFilter || 
-                    (doc[COLUMNS.AUTEUR] && doc[COLUMNS.AUTEUR].toLowerCase().includes(authorFilter));
-
-                return matchesSearch && matchesCategory && matchesYear && matchesAuthor;
-            });
+    // Navigation entre les pages
+    function showPage(pageId) {
+        console.log('Navigation vers:', pageId);
+        
+        // Masquer toutes les pages
+        const pages = document.querySelectorAll('.page');
+        pages.forEach(page => page.classList.remove('active'));
+        
+        // Afficher la page cible
+        const targetPage = document.getElementById(pageId);
+        if (targetPage) {
+            targetPage.classList.add('active');
+            console.log('Page affichée:', pageId);
+        } else {
+            console.error('Page non trouvée:', pageId);
+        }
+        
+        // Réinitialiser tous les liens de navigation
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => link.classList.remove('active'));
+        
+        // Activer le bon lien - recherche par onclick au lieu de classe
+        const activeLink = document.querySelector(`[onclick*="showPage('${pageId}')"]`);
+        if (activeLink) {
+            activeLink.classList.add('active');
+            console.log('Lien activé pour:', pageId);
+        } else {
+            console.error('Lien non trouvé pour:', pageId);
         }
 
-        function displayDocuments(documents) {
-            console.log('Affichage des documents:', documents.length);
-            const container = document.getElementById('documentsContainer');
-            
-            if (!container) {
-                console.error('Container non trouvé pour affichage');
-                return;
-            }
-            
-            if (!documents || documents.length === 0) {
-                container.innerHTML = '<div class="bib-alert bib-alert-info">Aucun document trouvé. Vérifiez vos filtres de recherche.</div>';
-                return;
-            }
-
-            let html = '';
-
-            documents.forEach((doc, index) => {
-                // Vérifier que le document a au minimum un titre
-                if (!doc || !doc[COLUMNS.TITRE]) {
-                    console.log('Document ignoré (pas de titre):', doc);
-                    return;
-                }
-
-                const horodateur = doc[COLUMNS.HORODATEUR] || '';
-                const titre = doc[COLUMNS.TITRE] || 'Sans titre';
-                const auteur = doc[COLUMNS.AUTEUR] || 'Auteur inconnu';
-                const annee = doc[COLUMNS.ANNEE] || '';
-                const journal = doc[COLUMNS.JOURNAL] || '';
-                const volume = doc[COLUMNS.VOLUME] || '';
-                const pages = doc[COLUMNS.PAGES] || '';
-                const doi = doc[COLUMNS.DOI] || '';
-                const isbn = doc[COLUMNS.ISBN] || '';
-                const categorie = doc[COLUMNS.CATEGORIE] || '';
-                const etiquettes = doc[COLUMNS.ETIQUETTES] || '';
-                const url = doc[COLUMNS.URL] || '';
-                const resume = doc[COLUMNS.RESUME] || '';
-                const notes = doc[COLUMNS.NOTES] || '';
-                
-                const date = horodateur ? new Date(horodateur).toLocaleDateString('fr-FR') : 'Date inconnue';
-                
-                console.log(`Document ${index}: ${titre} par ${auteur}`);
-                
-                html += `
-                <div class="bib-document-card" onclick="toggleExpandDoc(${index})">
-                    <div class="bib-doc-header">
-                        <div>
-                            <div class="bib-doc-title">${titre}</div>
-                            <div class="bib-doc-author">${auteur}</div>
-                        </div>
-                        <div class="bib-doc-date">${date}</div>
-                    </div>
-                    
-                    <div class="bib-doc-meta">
-                        ${annee ? `<span><strong>Année:</strong> ${annee}</span>` : ''}
-                        ${journal ? `<span><strong>Journal:</strong> ${journal}</span>` : ''}
-                        ${volume ? `<span><strong>Vol:</strong> ${volume}</span>` : ''}
-                        ${pages ? `<span><strong>Pages:</strong> ${pages}</span>` : ''}
-                        ${categorie ? `<span><strong>Catégorie:</strong> ${categorie}</span>` : ''}
-                    </div>
-                    
-                    ${etiquettes ? `
-                    <div class="bib-doc-tags">
-                        ${etiquettes.split(',').map(tag => `<span class="bib-tag">${tag.trim()}</span>`).join('')}
-                    </div>
-                    ` : ''}
-                    
-                    ${url ? `
-                    <div class="bib-doc-actions" onclick="event.stopPropagation()">
-                        <input type="text" class="bib-doc-url" value="${url}" readonly>
-                        <button class="bib-copy-btn" onclick="copyToClipboard('${url}')">📋 Copier</button>
-                        <a href="${url}" target="_blank" class="bib-download-btn">⬇️ Télécharger</a>
-                    </div>
-                    ` : ''}
-                    
-                    <div id="expanded-${index}" class="bib-expanded-doc" style="display: none;">
-                        <button class="bib-close-expanded" onclick="event.stopPropagation(); toggleExpandDoc(${index})">&times;</button>
-                        
-                        ${doi ? `<p><strong>DOI:</strong> ${doi}</p>` : ''}
-                        ${isbn ? `<p><strong>ISBN:</strong> ${isbn}</p>` : ''}
-                        
-                        ${resume ? `
-                        <h4>Résumé</h4>
-                        <p>${resume}</p>
-                        ` : ''}
-                        
-                        ${notes ? `
-                        <h4>Notes</h4>
-                        <p>${notes}</p>
-                        ` : ''}
-                    </div>
-                </div>
-                `;
-            });
-
-            console.log('HTML généré, longueur:', html.length);
-            container.innerHTML = html || '<div class="bib-alert bib-alert-info">Aucun document valide trouvé.</div>';
-        }
-
-        function toggleExpandDoc(index) {
-            const expandedDiv = document.getElementById(`expanded-${index}`);
-            
-            if (expandedDoc === index) {
-                // Fermer
-                expandedDiv.style.display = 'none';
-                expandedDoc = null;
-            } else {
-                // Fermer le précédent s'il y en a un
-                if (expandedDoc !== null) {
-                    const prevExpanded = document.getElementById(`expanded-${expandedDoc}`);
-                    if (prevExpanded) prevExpanded.style.display = 'none';
-                }
-                
-                // Ouvrir le nouveau
-                expandedDiv.style.display = 'block';
-                expandedDoc = index;
-            }
-        }
-
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                // Feedback visuel
-                const notification = document.createElement('div');
-                notification.innerHTML = `
-                    <div style="
-                        position: fixed;
-                        top: 20px;
-                        right: 20px;
-                        background: linear-gradient(45deg, #d4af37, #b8941f);
-                        color: #000;
-                        padding: 1rem 1.5rem;
-                        border-radius: 10px;
-                        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
-                        z-index: 3000;
-                        font-weight: bold;
-                        animation: slideIn 0.3s ease-out;
-                    ">
-                        ✅ URL copiée dans le presse-papiers !
-                    </div>
-                `;
-                
-                document.body.appendChild(notification);
-                
-                setTimeout(() => {
-                    notification.remove();
-                }, 3000);
-            }).catch(err => {
-                console.error('Erreur copie:', err);
-                alert('Erreur lors de la copie. Veuillez sélectionner et copier manuellement.');
-            });
-        }
-
-        function updateFilters() {
-            const categoryFilter = document.getElementById('categoryFilter');
-            const yearFilter = document.getElementById('yearFilter');
-            
-            if (!categoryFilter || !yearFilter) return;
-            
-            // Catégories uniques
-            const categories = [...new Set(allDocuments.map(doc => doc[COLUMNS.CATEGORIE]).filter(Boolean))];
-            categoryFilter.innerHTML = '<option value="">Toutes les catégories</option>';
-            categories.forEach(cat => {
-                categoryFilter.innerHTML += `<option value="${cat}">${cat}</option>`;
-            });
-            
-            // Années uniques
-            const years = [...new Set(allDocuments.map(doc => doc[COLUMNS.ANNEE]).filter(Boolean))];
-            yearFilter.innerHTML = '<option value="">Toutes les années</option>';
-            years.sort((a, b) => b - a).forEach(year => {
-                yearFilter.innerHTML += `<option value="${year}">${year}</option>`;
-            });
-        }
-
-        async function loadDashboard() {
-            try {
-                const sheetName = encodeURIComponent('Réponses au formulaire 1');
-                const response = await fetch(
-                    `https://sheets.googleapis.com/v4/spreadsheets/${config.spreadsheetId}/values/${sheetName}!A2:P1000?key=${config.apiKey}`
-                );
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    const documents = data.values || [];
-                    allDocuments = documents;
-                    updateDashboardStats(documents);
-                }
-            } catch (error) {
-                console.error('Erreur dashboard:', error);
-            }
-        }
-
-        function updateDashboardStats(documents) {
-            const total = documents.filter(doc => doc[COLUMNS.TITRE]).length;
-            const categories = new Set(documents.map(doc => doc[COLUMNS.CATEGORIE]).filter(Boolean));
-            const tags = new Set();
-            documents.forEach(doc => {
-                if (doc[COLUMNS.ETIQUETTES]) {
-                    doc[COLUMNS.ETIQUETTES].split(',').forEach(tag => tags.add(tag.trim()));
-                }
-            });
-            
-            // Documents ajoutés ce mois
-            const currentMonth = new Date().getMonth();
-            const currentYear = new Date().getFullYear();
-            const recentDocs = documents.filter(doc => {
-                if (doc[COLUMNS.HORODATEUR]) {
-                    const date = new Date(doc[COLUMNS.HORODATEUR]);
-                    return date.getMonth() === currentMonth && date.getFullYear() === currentYear;
-                }
-                return false;
-            }).length;
-
-            document.getElementById('totalDocs').textContent = total;
-            document.getElementById('totalCategories').textContent = categories.size;
-            document.getElementById('totalTags').textContent = tags.size;
-            document.getElementById('recentDocs').textContent = recentDocs;
-        }
-
-        function openGoogleForm() {
-            window.open(config.formUrl, '_blank');
-        }
-
-        function clearFilters() {
-            document.getElementById('searchInput').value = '';
-            document.getElementById('categoryFilter').value = '';
-            document.getElementById('yearFilter').value = '';
-            document.getElementById('authorFilter').value = '';
+        // Charger les données si on va sur la bibliographie
+        if (pageId === 'bibliographie' && isInitialized) {
+            console.log('Chargement des documents pour la bibliographie');
             loadDocuments();
         }
+    }
 
-        // Animation d'entrée pour les éléments
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes slideIn {
-                from {
-                    transform: translateX(100%);
-                    opacity: 0;
-                }
-                to {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
+    async function testConnection() {
+        const sheetName = encodeURIComponent('Réponses au formulaire 1');
+        const response = await fetch(
+            `https://sheets.googleapis.com/v4/spreadsheets/${config.spreadsheetId}/values/${sheetName}!A1:B2?key=${config.apiKey}`
+        );
+        
+        if (!response.ok) {
+            throw new Error('Connexion échouée');
+        }
+        
+        return response.json();
+    }
+
+    async function loadDocuments() {
+        console.log('Chargement des documents...');
+        const container = document.getElementById('documentsContainer');
+        
+        if (!container) {
+            console.error('Container documents non trouvé');
+            return;
+        }
+        
+        container.innerHTML = '<div class="bib-loading">Chargement des documents...</div>';
+
+        try {
+            const sheetName = encodeURIComponent('Réponses au formulaire 1');
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${config.spreadsheetId}/values/${sheetName}!A2:P1000?key=${config.apiKey}`;
+            console.log('URL de requête:', url);
+            
+            const response = await fetch(url);
+            console.log('Statut de la réponse:', response.status);
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('Erreur API:', errorData);
+                throw new Error(`Erreur ${response.status}: ${errorData.error?.message || 'Erreur inconnue'}`);
             }
-        `;
-        document.head.appendChild(style);
-    </script>
+
+            const data = await response.json();
+            console.log('Données reçues:', data);
+            
+            allDocuments = data.values || [];
+            console.log('Nombre de documents:', allDocuments.length);
+            
+            // Appliquer les filtres
+            let filteredDocs = filterDocuments(allDocuments);
+            console.log('Documents filtrés:', filteredDocs.length);
+            
+            displayDocuments(filteredDocs);
+            updateFilters();
+            
+        } catch (error) {
+            console.error('Erreur lors du chargement:', error);
+            container.innerHTML = `<div class="bib-alert bib-alert-error">Erreur: ${error.message}<br><small>Vérifiez la console pour plus de détails</small></div>`;
+        }
+    }
+
+    function filterDocuments(documents) {
+        const searchTerm = document.getElementById('searchInput')?.value.toLowerCase() || '';
+        const categoryFilter = document.getElementById('categoryFilter')?.value || '';
+        const yearFilter = document.getElementById('yearFilter')?.value || '';
+        const authorFilter = document.getElementById('authorFilter')?.value.toLowerCase() || '';
+
+        return documents.filter(doc => {
+            const matchesSearch = !searchTerm || 
+                (doc[COLUMNS.TITRE] && doc[COLUMNS.TITRE].toLowerCase().includes(searchTerm)) ||
+                (doc[COLUMNS.AUTEUR] && doc[COLUMNS.AUTEUR].toLowerCase().includes(searchTerm)) ||
+                (doc[COLUMNS.ETIQUETTES] && doc[COLUMNS.ETIQUETTES].toLowerCase().includes(searchTerm)) ||
+                (doc[COLUMNS.RESUME] && doc[COLUMNS.RESUME].toLowerCase().includes(searchTerm));
+            
+            const matchesCategory = !categoryFilter || doc[COLUMNS.CATEGORIE] === categoryFilter;
+            const matchesYear = !yearFilter || doc[COLUMNS.ANNEE] === yearFilter;
+            const matchesAuthor = !authorFilter || 
+                (doc[COLUMNS.AUTEUR] && doc[COLUMNS.AUTEUR].toLowerCase().includes(authorFilter));
+
+            return matchesSearch && matchesCategory && matchesYear && matchesAuthor;
+        });
+    }
+
+    function displayDocuments(documents) {
+        console.log('Affichage des documents:', documents.length);
+        const container = document.getElementById('documentsContainer');
+        
+        if (!container) {
+            console.error('Container non trouvé pour affichage');
+            return;
+        }
+        
+        if (!documents || documents.length === 0) {
+            container.innerHTML = '<div class="bib-alert bib-alert-info">Aucun document trouvé. Vérifiez vos filtres de recherche.</div>';
+            return;
+        }
+
+        let html = '';
+
+        documents.forEach((doc, index) => {
+            // Vérifier que le document a au minimum un titre
+            if (!doc || !doc[COLUMNS.TITRE]) {
+                console.log('Document ignoré (pas de titre):', doc);
+                return;
+            }
+
+            const horodateur = doc[COLUMNS.HORODATEUR] || '';
+            const titre = doc[COLUMNS.TITRE] || 'Sans titre';
+            const auteur = doc[COLUMNS.AUTEUR] || 'Auteur inconnu';
+            const annee = doc[COLUMNS.ANNEE] || '';
+            const journal = doc[COLUMNS.JOURNAL] || '';
+            const volume = doc[COLUMNS.VOLUME] || '';
+            const pages = doc[COLUMNS.PAGES] || '';
+            const doi = doc[COLUMNS.DOI] || '';
+            const isbn = doc[COLUMNS.ISBN] || '';
+            const categorie = doc[COLUMNS.CATEGORIE] || '';
+            const etiquettes = doc[COLUMNS.ETIQUETTES] || '';
+            const url = doc[COLUMNS.URL] || '';
+            const resume = doc[COLUMNS.RESUME] || '';
+            const notes = doc[COLUMNS.NOTES] || '';
+            
+            const date = horodateur ? new Date(horodateur).toLocaleDateString('fr-FR') : 'Date inconnue';
+            
+            console.log(`Document ${index}: ${titre} par ${auteur}`);
+            
+            html += `
+            <div class="bib-document-card" onclick="toggleExpandDoc(${index})">
+                <div class="bib-doc-header">
+                    <div>
+                        <div class="bib-doc-title">${titre}</div>
+                        <div class="bib-doc-author">${auteur}</div>
+                    </div>
+                    <div class="bib-doc-date">${date}</div>
+                </div>
+                
+                <div class="bib-doc-meta">
+                    ${annee ? `<span><strong>Année:</strong> ${annee}</span>` : ''}
+                    ${journal ? `<span><strong>Journal:</strong> ${journal}</span>` : ''}
+                    ${volume ? `<span><strong>Vol:</strong> ${volume}</span>` : ''}
+                    ${pages ? `<span><strong>Pages:</strong> ${pages}</span>` : ''}
+                    ${categorie ? `<span><strong>Catégorie:</strong> ${categorie}</span>` : ''}
+                </div>
+                
+                ${etiquettes ? `
+                <div class="bib-doc-tags">
+                    ${etiquettes.split(',').map(tag => `<span class="bib-tag">${tag.trim()}</span>`).join('')}
+                </div>
+                ` : ''}
+                
+                ${url ? `
+                <div class="bib-doc-actions" onclick="event.stopPropagation()">
+                    <input type="text" class="bib-doc-url" value="${url}" readonly>
+                    <button class="bib-copy-btn" onclick="copyToClipboard('${url}')">📋 Copier</button>
+                    <a href="${url}" target="_blank" class="bib-download-btn">⬇️ Télécharger</a>
+                </div>
+                ` : ''}
+                
+                <div id="expanded-${index}" class="bib-expanded-doc" style="display: none;">
+                    <button class="bib-close-expanded" onclick="event.stopPropagation(); toggleExpandDoc(${index})">&times;</button>
+                    
+                    ${doi ? `<p><strong>DOI:</strong> ${doi}</p>` : ''}
+                    ${isbn ? `<p><strong>ISBN:</strong> ${isbn}</p>` : ''}
+                    
+                    ${resume ? `
+                    <h4>Résumé</h4>
+                    <p>${resume}</p>
+                    ` : ''}
+                    
+                    ${notes ? `
+                    <h4>Notes</h4>
+                    <p>${notes}</p>
+                    ` : ''}
+                </div>
+            </div>
+            `;
+        });
+
+        console.log('HTML généré, longueur:', html.length);
+        container.innerHTML = html || '<div class="bib-alert bib-alert-info">Aucun document valide trouvé.</div>';
+    }
+
+    function toggleExpandDoc(index) {
+        const expandedDiv = document.getElementById(`expanded-${index}`);
+        
+        if (expandedDoc === index) {
+            // Fermer
+            expandedDiv.style.display = 'none';
+            expandedDoc = null;
+        } else {
+            // Fermer le précédent s'il y en a un
+            if (expandedDoc !== null) {
+                const prevExpanded = document.getElementById(`expanded-${expandedDoc}`);
+                if (prevExpanded) prevExpanded.style.display = 'none';
+            }
+            
+            // Ouvrir le nouveau
+            expandedDiv.style.display = 'block';
+            expandedDoc = index;
+        }
+    }
+
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            // Feedback visuel
+            const notification = document.createElement('div');
+            notification.innerHTML = `
+                <div style="
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: linear-gradient(45deg, #d4af37, #b8941f);
+                    color: #000;
+                    padding: 1rem 1.5rem;
+                    border-radius: 10px;
+                    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+                    z-index: 3000;
+                    font-weight: bold;
+                    animation: slideIn 0.3s ease-out;
+                ">
+                    ✅ URL copiée dans le presse-papiers !
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }).catch(err => {
+            console.error('Erreur copie:', err);
+            alert('Erreur lors de la copie. Veuillez sélectionner et copier manuellement.');
+        });
+    }
+
+    function updateFilters() {
+        const categoryFilter = document.getElementById('categoryFilter');
+        const yearFilter = document.getElementById('yearFilter');
+        
+        if (!categoryFilter || !yearFilter) return;
+        
+        // Catégories uniques
+        const categories = [...new Set(allDocuments.map(doc => doc[COLUMNS.CATEGORIE]).filter(Boolean))];
+        categoryFilter.innerHTML = '<option value="">Toutes les catégories</option>';
+        categories.forEach(cat => {
+            categoryFilter.innerHTML += `<option value="${cat}">${cat}</option>`;
+        });
+        
+        // Années uniques
+        const years = [...new Set(allDocuments.map(doc => doc[COLUMNS.ANNEE]).filter(Boolean))];
+        yearFilter.innerHTML = '<option value="">Toutes les années</option>';
+        years.sort((a, b) => b - a).forEach(year => {
+            yearFilter.innerHTML += `<option value="${year}">${year}</option>`;
+        });
+    }
+
+    async function loadDashboard() {
+        try {
+            const sheetName = encodeURIComponent('Réponses au formulaire 1');
+            const response = await fetch(
+                `https://sheets.googleapis.com/v4/spreadsheets/${config.spreadsheetId}/values/${sheetName}!A2:P1000?key=${config.apiKey}`
+            );
+            
+            if (response.ok) {
+                const data = await response.json();
+                const documents = data.values || [];
+                allDocuments = documents;
+                updateDashboardStats(documents);
+            }
+        } catch (error) {
+            console.error('Erreur dashboard:', error);
+        }
+    }
+
+    function updateDashboardStats(documents) {
+        const total = documents.filter(doc => doc[COLUMNS.TITRE]).length;
+        const categories = new Set(documents.map(doc => doc[COLUMNS.CATEGORIE]).filter(Boolean));
+        const tags = new Set();
+        documents.forEach(doc => {
+            if (doc[COLUMNS.ETIQUETTES]) {
+                doc[COLUMNS.ETIQUETTES].split(',').forEach(tag => tags.add(tag.trim()));
+            }
+        });
+        
+        // Documents ajoutés ce mois
+        const currentMonth = new Date().getMonth();
+        const currentYear = new Date().getFullYear();
+        const recentDocs = documents.filter(doc => {
+            if (doc[COLUMNS.HORODATEUR]) {
+                const date = new Date(doc[COLUMNS.HORODATEUR]);
+                return date.getMonth() === currentMonth && date.getFullYear() === currentYear;
+            }
+            return false;
+        }).length;
+
+        document.getElementById('totalDocs').textContent = total;
+        document.getElementById('totalCategories').textContent = categories.size;
+        document.getElementById('totalTags').textContent = tags.size;
+        document.getElementById('recentDocs').textContent = recentDocs;
+    }
+
+    function openGoogleForm() {
+        window.open(config.formUrl, '_blank');
+    }
+
+    function clearFilters() {
+        document.getElementById('searchInput').value = '';
+        document.getElementById('categoryFilter').value = '';
+        document.getElementById('yearFilter').value = '';
+        document.getElementById('authorFilter').value = '';
+        loadDocuments();
+    }
+
+    // Animation d'entrée pour les éléments
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+</script>
 </body>
 </html>
