@@ -890,6 +890,7 @@
                 grid-template-columns: 1fr;
             }
         }
+
         .bib-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -1794,6 +1795,559 @@
                 </div>
             </div>
         </div>
+        <div id="bibliographie" class="page">
+            <div class="hero-section">
+                <h1 class="hero-title">📚 BASE BIBLIOGRAPHIQUE</h1>
+                <p class="hero-subtitle">
+                    Collection scientifique et documentaire sur le Panthéon romain
+                </p>
+            </div>
+    
+            <div class="section">
+                <div class="bib-stats">
+                    <div class="bib-stat-card">
+                        <div class="bib-stat-number" id="totalDocs">-</div>
+                        <div class="bib-stat-label">Documents</div>
+                    </div>
+                    <div class="bib-stat-card">
+                        <div class="bib-stat-number" id="totalCategories">-</div>
+                        <div class="bib-stat-label">Catégories</div>
+                    </div>
+                    <div class="bib-stat-card">
+                        <div class="bib-stat-number" id="totalTags">-</div>
+                        <div class="bib-stat-label">Étiquettes</div>
+                    </div>
+                    <div class="bib-stat-card">
+                        <div class="bib-stat-number" id="recentDocs">-</div>
+                        <div class="bib-stat-label">Ce mois</div>
+                    </div>
+                </div>
+    
+                <div class="bib-alert bib-alert-info">
+                    <span class="bib-status-indicator bib-status-connected" id="statusIndicator"></span>
+                    <span id="statusText">Connexion à la base de données...</span>
+                </div>
+            </div>
+    
+            <div class="bib-search-section">
+                <h2 class="section-title">🔍 Recherche Documentaire</h2>
+                <div class="bib-search-bar">
+                    <input type="text" class="bib-search-input" id="searchInput" placeholder="Rechercher par titre, auteur, mot-clé...">
+                    <button class="bib-btn bib-btn-primary" onclick="loadDocuments()">Rechercher</button>
+                    <button class="bib-btn bib-btn-secondary" onclick="clearFilters()">Effacer</button>
+                </div>
+                <div class="bib-filters">
+                    <select class="bib-filter-select" id="categoryFilter">
+                        <option value="">Toutes les catégories</option>
+                    </select>
+                    <select class="bib-filter-select" id="yearFilter">
+                        <option value="">Toutes les années</option>
+                    </select>
+                    <input type="text" class="bib-filter-select" id="authorFilter" placeholder="Filtrer par auteur">
+                </div>
+            </div>
+    
+            <div class="section">
+                <h2 class="section-title">➕ Ajouter un Document</h2>
+                <p style="margin-bottom: 1rem; opacity: 0.9;">Utilisez le formulaire Google pour enrichir la base bibliographique :</p>
+                <button class="bib-btn bib-btn-primary" onclick="openGoogleForm()">
+                    📝 Ouvrir le Formulaire d'Ajout
+                </button>
+            </div>
+    
+            <div id="documentsContainer" class="bib-documents-container">
+                <div class="bib-loading">Chargement de la bibliographie...</div>
+            </div>
+        </div>
+    
+        <!-- Autres pages existantes... (projet, ressources, etc.) -->
+        <div id="projet" class="page">
+            <div class="hero-section">
+                <h1 class="hero-title">LE PROJET PANTHÉON</h1>
+                <p class="hero-subtitle">Une exploration multidisciplinaire de l'un des monuments les plus fascinants de l'Antiquité</p>
+            </div>
+            <div class="section">
+                <h2 class="section-title">Objectifs du Projet</h2>
+                <p>Ce projet vise à présenter une analyse complète du Panthéon romain sous plusieurs aspects : architectural, mathématique, physique et historique.</p>
+            </div>
+        </div>
+    
+        <!-- PAGE CONTACT -->
+        <div id="contact" class="page">
+            <div class="hero-section">
+                <h1 class="hero-title">CONTACTEZ-NOUS</h1>
+                <p class="hero-subtitle">Nous sommes là pour vous aider et répondre à vos questions sur le Panthéon</p>
+            </div>
+            <div class="section">
+                <h2 class="section-title">Informations Pratiques</h2>
+                <p><strong>Adrian :</strong> Adrian.orte@studentfr.ch</p>
+                <p><strong>Almir :</strong> Almir.Dzaferi@studentfr.ch</p>
+                <p><strong>Maxime :</strong> Maxime.genoud01@studentfr.ch</p>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        // Configuration avec clé API pré-configurée
+        const config = {
+            apiKey: 'AIzaSyB_m6G8sLiuuCOuL2rW82qbw9BsehRqGHA',
+            spreadsheetId: '1QJTrxamkueykp17b-C7oXNs4K_Za9Yzwc0W3w3aEVKg',
+            range: 'Réponses au formulaire 1!A2:P1000',
+            formUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSfGayNMjCSxp2tSjWkvGsbgdycF1WNVBUbXxtgq6-irA_sjBw/viewform?usp=dialog'
+        };
+    
+        // Colonnes du Google Sheet
+        const COLUMNS = {
+            HORODATEUR: 0,
+            TITRE: 1,
+            AUTEUR: 2,
+            ANNEE: 3,
+            JOURNAL: 4,
+            VOLUME: 5,
+            PAGES: 6,
+            DOI: 7,
+            ISBN: 8,
+            CATEGORIE: 9,
+            ETIQUETTES: 10,
+            URL: 11,
+            RESUME: 12,
+            NOTES: 13
+        };
+    
+        let allDocuments = [];
+        let isInitialized = false;
+        let expandedDoc = null;
+    
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page chargée, initialisation...');
+            
+            // Event listeners
+            document.getElementById('searchInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    console.log('Recherche lancée');
+                    loadDocuments();
+                }
+            });
+    
+            // Event listeners pour les filtres
+            document.getElementById('categoryFilter').addEventListener('change', function() {
+                console.log('Filtre catégorie changé');
+                loadDocuments();
+            });
+            
+            document.getElementById('yearFilter').addEventListener('change', function() {
+                console.log('Filtre année changé');
+                loadDocuments();
+            });
+            
+            let authorTimeout;
+            document.getElementById('authorFilter').addEventListener('input', function() {
+                clearTimeout(authorTimeout);
+                authorTimeout = setTimeout(() => {
+                    console.log('Filtre auteur changé');
+                    loadDocuments();
+                }, 500);
+            });
+    
+            // Initialiser l'app
+            initializeApp();
+        });
+    
+        async function initializeApp() {
+            console.log('Initialisation de l\'app...');
+            try {
+                await testConnection();
+                console.log('Connexion réussie');
+                await loadDashboard();
+                console.log('Dashboard chargé');
+                isInitialized = true;
+                updateStatus('Base de données connectée', true);
+                
+                // Charger automatiquement les documents si on est sur la page bibliographie
+                if (document.getElementById('bibliographie').classList.contains('active')) {
+                    console.log('Chargement automatique des documents');
+                    await loadDocuments();
+                }
+            } catch (error) {
+                updateStatus('Erreur de connexion à la base', false);
+                console.error('Erreur d\'initialisation:', error);
+                
+                // Afficher l'erreur dans le container
+                const container = document.getElementById('documentsContainer');
+                if (container) {
+                    container.innerHTML = `<div class="bib-alert bib-alert-error">Erreur de connexion: ${error.message}</div>`;
+                }
+            }
+        }
+    
+        function updateStatus(message, connected) {
+            document.getElementById('statusText').textContent = message;
+            const indicator = document.getElementById('statusIndicator');
+            indicator.className = `bib-status-indicator ${connected ? 'bib-status-connected' : 'bib-status-disconnected'}`;
+        }
+    
+        // Navigation entre les pages
+        function showPage(pageId) {
+            console.log('Navigation vers:', pageId);
+            
+            // Masquer toutes les pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Afficher la page cible
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+                console.log('Page affichée:', pageId);
+            } else {
+                console.error('Page non trouvée:', pageId);
+            }
+            
+            // Réinitialiser tous les liens de navigation
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => link.classList.remove('active'));
+            
+            // Activer le bon lien - recherche par onclick au lieu de classe
+            const activeLink = document.querySelector(`[onclick*="showPage('${pageId}')"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+                console.log('Lien activé pour:', pageId);
+            } else {
+                console.error('Lien non trouvé pour:', pageId);
+            }
+    
+            // Charger les données si on va sur la bibliographie
+            if (pageId === 'bibliographie' && isInitialized) {
+                console.log('Chargement des documents pour la bibliographie');
+                loadDocuments();
+            }
+        }
+    
+        async function testConnection() {
+            const sheetName = encodeURIComponent('Réponses au formulaire 1');
+            const response = await fetch(
+                `https://sheets.googleapis.com/v4/spreadsheets/${config.spreadsheetId}/values/${sheetName}!A1:B2?key=${config.apiKey}`
+            );
+            
+            if (!response.ok) {
+                throw new Error('Connexion échouée');
+            }
+            
+            return response.json();
+        }
+    
+        async function loadDocuments() {
+            console.log('Chargement des documents...');
+            const container = document.getElementById('documentsContainer');
+            
+            if (!container) {
+                console.error('Container documents non trouvé');
+                return;
+            }
+            
+            container.innerHTML = '<div class="bib-loading">Chargement des documents...</div>';
+    
+            try {
+                const sheetName = encodeURIComponent('Réponses au formulaire 1');
+                const url = `https://sheets.googleapis.com/v4/spreadsheets/${config.spreadsheetId}/values/${sheetName}!A2:P1000?key=${config.apiKey}`;
+                console.log('URL de requête:', url);
+                
+                const response = await fetch(url);
+                console.log('Statut de la réponse:', response.status);
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Erreur API:', errorData);
+                    throw new Error(`Erreur ${response.status}: ${errorData.error?.message || 'Erreur inconnue'}`);
+                }
+    
+                const data = await response.json();
+                console.log('Données reçues:', data);
+                
+                allDocuments = data.values || [];
+                console.log('Nombre de documents:', allDocuments.length);
+                
+                // Appliquer les filtres
+                let filteredDocs = filterDocuments(allDocuments);
+                console.log('Documents filtrés:', filteredDocs.length);
+                
+                displayDocuments(filteredDocs);
+                updateFilters();
+                
+            } catch (error) {
+                console.error('Erreur lors du chargement:', error);
+                container.innerHTML = `<div class="bib-alert bib-alert-error">Erreur: ${error.message}<br><small>Vérifiez la console pour plus de détails</small></div>`;
+            }
+        }
+    
+        function filterDocuments(documents) {
+            const searchTerm = document.getElementById('searchInput')?.value.toLowerCase() || '';
+            const categoryFilter = document.getElementById('categoryFilter')?.value || '';
+            const yearFilter = document.getElementById('yearFilter')?.value || '';
+            const authorFilter = document.getElementById('authorFilter')?.value.toLowerCase() || '';
+    
+            return documents.filter(doc => {
+                const matchesSearch = !searchTerm || 
+                    (doc[COLUMNS.TITRE] && doc[COLUMNS.TITRE].toLowerCase().includes(searchTerm)) ||
+                    (doc[COLUMNS.AUTEUR] && doc[COLUMNS.AUTEUR].toLowerCase().includes(searchTerm)) ||
+                    (doc[COLUMNS.ETIQUETTES] && doc[COLUMNS.ETIQUETTES].toLowerCase().includes(searchTerm)) ||
+                    (doc[COLUMNS.RESUME] && doc[COLUMNS.RESUME].toLowerCase().includes(searchTerm));
+                
+                const matchesCategory = !categoryFilter || doc[COLUMNS.CATEGORIE] === categoryFilter;
+                const matchesYear = !yearFilter || doc[COLUMNS.ANNEE] === yearFilter;
+                const matchesAuthor = !authorFilter || 
+                    (doc[COLUMNS.AUTEUR] && doc[COLUMNS.AUTEUR].toLowerCase().includes(authorFilter));
+    
+                return matchesSearch && matchesCategory && matchesYear && matchesAuthor;
+            });
+        }
+    
+        function displayDocuments(documents) {
+            console.log('Affichage des documents:', documents.length);
+            const container = document.getElementById('documentsContainer');
+            
+            if (!container) {
+                console.error('Container non trouvé pour affichage');
+                return;
+            }
+            
+            if (!documents || documents.length === 0) {
+                container.innerHTML = '<div class="bib-alert bib-alert-info">Aucun document trouvé. Vérifiez vos filtres de recherche.</div>';
+                return;
+            }
+    
+            let html = '';
+    
+            documents.forEach((doc, index) => {
+                // Vérifier que le document a au minimum un titre
+                if (!doc || !doc[COLUMNS.TITRE]) {
+                    console.log('Document ignoré (pas de titre):', doc);
+                    return;
+                }
+    
+                const horodateur = doc[COLUMNS.HORODATEUR] || '';
+                const titre = doc[COLUMNS.TITRE] || 'Sans titre';
+                const auteur = doc[COLUMNS.AUTEUR] || 'Auteur inconnu';
+                const annee = doc[COLUMNS.ANNEE] || '';
+                const journal = doc[COLUMNS.JOURNAL] || '';
+                const volume = doc[COLUMNS.VOLUME] || '';
+                const pages = doc[COLUMNS.PAGES] || '';
+                const doi = doc[COLUMNS.DOI] || '';
+                const isbn = doc[COLUMNS.ISBN] || '';
+                const categorie = doc[COLUMNS.CATEGORIE] || '';
+                const etiquettes = doc[COLUMNS.ETIQUETTES] || '';
+                const url = doc[COLUMNS.URL] || '';
+                const resume = doc[COLUMNS.RESUME] || '';
+                const notes = doc[COLUMNS.NOTES] || '';
+                
+                const date = horodateur ? new Date(horodateur).toLocaleDateString('fr-FR') : 'Date inconnue';
+                
+                console.log(`Document ${index}: ${titre} par ${auteur}`);
+                
+                html += `
+                <div class="bib-document-card" onclick="toggleExpandDoc(${index})">
+                    <div class="bib-doc-header">
+                        <div>
+                            <div class="bib-doc-title">${titre}</div>
+                            <div class="bib-doc-author">${auteur}</div>
+                        </div>
+                        <div class="bib-doc-date">${date}</div>
+                    </div>
+                    
+                    <div class="bib-doc-meta">
+                        ${annee ? `<span><strong>Année:</strong> ${annee}</span>` : ''}
+                        ${journal ? `<span><strong>Journal:</strong> ${journal}</span>` : ''}
+                        ${volume ? `<span><strong>Vol:</strong> ${volume}</span>` : ''}
+                        ${pages ? `<span><strong>Pages:</strong> ${pages}</span>` : ''}
+                        ${categorie ? `<span><strong>Catégorie:</strong> ${categorie}</span>` : ''}
+                    </div>
+                    
+                    ${etiquettes ? `
+                    <div class="bib-doc-tags">
+                        ${etiquettes.split(',').map(tag => `<span class="bib-tag">${tag.trim()}</span>`).join('')}
+                    </div>
+                    ` : ''}
+                    
+                    ${url ? `
+                    <div class="bib-doc-actions" onclick="event.stopPropagation()">
+                        <input type="text" class="bib-doc-url" value="${url}" readonly>
+                        <button class="bib-copy-btn" onclick="copyToClipboard('${url}')">📋 Copier</button>
+                        <a href="${url}" target="_blank" class="bib-download-btn">⬇️ Télécharger</a>
+                    </div>
+                    ` : ''}
+                    
+                    <div id="expanded-${index}" class="bib-expanded-doc" style="display: none;">
+                        <button class="bib-close-expanded" onclick="event.stopPropagation(); toggleExpandDoc(${index})">&times;</button>
+                        
+                        ${doi ? `<p><strong>DOI:</strong> ${doi}</p>` : ''}
+                        ${isbn ? `<p><strong>ISBN:</strong> ${isbn}</p>` : ''}
+                        
+                        ${resume ? `
+                        <h4>Résumé</h4>
+                        <p>${resume}</p>
+                        ` : ''}
+                        
+                        ${notes ? `
+                        <h4>Notes</h4>
+                        <p>${notes}</p>
+                        ` : ''}
+                    </div>
+                </div>
+                `;
+            });
+    
+            console.log('HTML généré, longueur:', html.length);
+            container.innerHTML = html || '<div class="bib-alert bib-alert-info">Aucun document valide trouvé.</div>';
+        }
+    
+        function toggleExpandDoc(index) {
+            const expandedDiv = document.getElementById(`expanded-${index}`);
+            
+            if (expandedDoc === index) {
+                // Fermer
+                expandedDiv.style.display = 'none';
+                expandedDoc = null;
+            } else {
+                // Fermer le précédent s'il y en a un
+                if (expandedDoc !== null) {
+                    const prevExpanded = document.getElementById(`expanded-${expandedDoc}`);
+                    if (prevExpanded) prevExpanded.style.display = 'none';
+                }
+                
+                // Ouvrir le nouveau
+                expandedDiv.style.display = 'block';
+                expandedDoc = index;
+            }
+        }
+    
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Feedback visuel
+                const notification = document.createElement('div');
+                notification.innerHTML = `
+                    <div style="
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        background: linear-gradient(45deg, #d4af37, #b8941f);
+                        color: #000;
+                        padding: 1rem 1.5rem;
+                        border-radius: 10px;
+                        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+                        z-index: 3000;
+                        font-weight: bold;
+                        animation: slideIn 0.3s ease-out;
+                    ">
+                        ✅ URL copiée dans le presse-papiers !
+                    </div>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
+            }).catch(err => {
+                console.error('Erreur copie:', err);
+                alert('Erreur lors de la copie. Veuillez sélectionner et copier manuellement.');
+            });
+        }
+    
+        function updateFilters() {
+            const categoryFilter = document.getElementById('categoryFilter');
+            const yearFilter = document.getElementById('yearFilter');
+            
+            if (!categoryFilter || !yearFilter) return;
+            
+            // Catégories uniques
+            const categories = [...new Set(allDocuments.map(doc => doc[COLUMNS.CATEGORIE]).filter(Boolean))];
+            categoryFilter.innerHTML = '<option value="">Toutes les catégories</option>';
+            categories.forEach(cat => {
+                categoryFilter.innerHTML += `<option value="${cat}">${cat}</option>`;
+            });
+            
+            // Années uniques
+            const years = [...new Set(allDocuments.map(doc => doc[COLUMNS.ANNEE]).filter(Boolean))];
+            yearFilter.innerHTML = '<option value="">Toutes les années</option>';
+            years.sort((a, b) => b - a).forEach(year => {
+                yearFilter.innerHTML += `<option value="${year}">${year}</option>`;
+            });
+        }
+    
+        async function loadDashboard() {
+            try {
+                const sheetName = encodeURIComponent('Réponses au formulaire 1');
+                const response = await fetch(
+                    `https://sheets.googleapis.com/v4/spreadsheets/${config.spreadsheetId}/values/${sheetName}!A2:P1000?key=${config.apiKey}`
+                );
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    const documents = data.values || [];
+                    allDocuments = documents;
+                    updateDashboardStats(documents);
+                }
+            } catch (error) {
+                console.error('Erreur dashboard:', error);
+            }
+        }
+    
+        function updateDashboardStats(documents) {
+            const total = documents.filter(doc => doc[COLUMNS.TITRE]).length;
+            const categories = new Set(documents.map(doc => doc[COLUMNS.CATEGORIE]).filter(Boolean));
+            const tags = new Set();
+            documents.forEach(doc => {
+                if (doc[COLUMNS.ETIQUETTES]) {
+                    doc[COLUMNS.ETIQUETTES].split(',').forEach(tag => tags.add(tag.trim()));
+                }
+            });
+            
+            // Documents ajoutés ce mois
+            const currentMonth = new Date().getMonth();
+            const currentYear = new Date().getFullYear();
+            const recentDocs = documents.filter(doc => {
+                if (doc[COLUMNS.HORODATEUR]) {
+                    const date = new Date(doc[COLUMNS.HORODATEUR]);
+                    return date.getMonth() === currentMonth && date.getFullYear() === currentYear;
+                }
+                return false;
+            }).length;
+    
+            document.getElementById('totalDocs').textContent = total;
+            document.getElementById('totalCategories').textContent = categories.size;
+            document.getElementById('totalTags').textContent = tags.size;
+            document.getElementById('recentDocs').textContent = recentDocs;
+        }
+    
+        function openGoogleForm() {
+            window.open(config.formUrl, '_blank');
+        }
+    
+        function clearFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('categoryFilter').value = '';
+            document.getElementById('yearFilter').value = '';
+            document.getElementById('authorFilter').value = '';
+            loadDocuments();
+        }
+    
+        // Animation d'entrée pour les éléments
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
     </main>
 
     <!-- MODALES POUR LES RESSOURCES -->
@@ -2264,558 +2818,6 @@ function showSuccessMessage() {
             handleContactForm();
         });
     </script>
-    <div id="bibliographie" class="page">
-        <div class="hero-section">
-            <h1 class="hero-title">📚 BASE BIBLIOGRAPHIQUE</h1>
-            <p class="hero-subtitle">
-                Collection scientifique et documentaire sur le Panthéon romain
-            </p>
-        </div>
-
-        <div class="section">
-            <div class="bib-stats">
-                <div class="bib-stat-card">
-                    <div class="bib-stat-number" id="totalDocs">-</div>
-                    <div class="bib-stat-label">Documents</div>
-                </div>
-                <div class="bib-stat-card">
-                    <div class="bib-stat-number" id="totalCategories">-</div>
-                    <div class="bib-stat-label">Catégories</div>
-                </div>
-                <div class="bib-stat-card">
-                    <div class="bib-stat-number" id="totalTags">-</div>
-                    <div class="bib-stat-label">Étiquettes</div>
-                </div>
-                <div class="bib-stat-card">
-                    <div class="bib-stat-number" id="recentDocs">-</div>
-                    <div class="bib-stat-label">Ce mois</div>
-                </div>
-            </div>
-
-            <div class="bib-alert bib-alert-info">
-                <span class="bib-status-indicator bib-status-connected" id="statusIndicator"></span>
-                <span id="statusText">Connexion à la base de données...</span>
-            </div>
-        </div>
-
-        <div class="bib-search-section">
-            <h2 class="section-title">🔍 Recherche Documentaire</h2>
-            <div class="bib-search-bar">
-                <input type="text" class="bib-search-input" id="searchInput" placeholder="Rechercher par titre, auteur, mot-clé...">
-                <button class="bib-btn bib-btn-primary" onclick="loadDocuments()">Rechercher</button>
-                <button class="bib-btn bib-btn-secondary" onclick="clearFilters()">Effacer</button>
-            </div>
-            <div class="bib-filters">
-                <select class="bib-filter-select" id="categoryFilter">
-                    <option value="">Toutes les catégories</option>
-                </select>
-                <select class="bib-filter-select" id="yearFilter">
-                    <option value="">Toutes les années</option>
-                </select>
-                <input type="text" class="bib-filter-select" id="authorFilter" placeholder="Filtrer par auteur">
-            </div>
-        </div>
-
-        <div class="section">
-            <h2 class="section-title">➕ Ajouter un Document</h2>
-            <p style="margin-bottom: 1rem; opacity: 0.9;">Utilisez le formulaire Google pour enrichir la base bibliographique :</p>
-            <button class="bib-btn bib-btn-primary" onclick="openGoogleForm()">
-                📝 Ouvrir le Formulaire d'Ajout
-            </button>
-        </div>
-
-        <div id="documentsContainer" class="bib-documents-container">
-            <div class="bib-loading">Chargement de la bibliographie...</div>
-        </div>
-    </div>
-
-    <!-- Autres pages existantes... (projet, ressources, etc.) -->
-    <div id="projet" class="page">
-        <div class="hero-section">
-            <h1 class="hero-title">LE PROJET PANTHÉON</h1>
-            <p class="hero-subtitle">Une exploration multidisciplinaire de l'un des monuments les plus fascinants de l'Antiquité</p>
-        </div>
-        <div class="section">
-            <h2 class="section-title">Objectifs du Projet</h2>
-            <p>Ce projet vise à présenter une analyse complète du Panthéon romain sous plusieurs aspects : architectural, mathématique, physique et historique.</p>
-        </div>
-    </div>
-
-    <!-- PAGE CONTACT -->
-    <div id="contact" class="page">
-        <div class="hero-section">
-            <h1 class="hero-title">CONTACTEZ-NOUS</h1>
-            <p class="hero-subtitle">Nous sommes là pour vous aider et répondre à vos questions sur le Panthéon</p>
-        </div>
-        <div class="section">
-            <h2 class="section-title">Informations Pratiques</h2>
-            <p><strong>Adrian :</strong> Adrian.orte@studentfr.ch</p>
-            <p><strong>Almir :</strong> Almir.Dzaferi@studentfr.ch</p>
-            <p><strong>Maxime :</strong> Maxime.genoud01@studentfr.ch</p>
-        </div>
-    </div>
-</main>
-
-<script>
-    // Configuration avec clé API pré-configurée
-    const config = {
-        apiKey: 'AIzaSyB_m6G8sLiuuCOuL2rW82qbw9BsehRqGHA',
-        spreadsheetId: '1QJTrxamkueykp17b-C7oXNs4K_Za9Yzwc0W3w3aEVKg',
-        range: 'Réponses au formulaire 1!A2:P1000',
-        formUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSfGayNMjCSxp2tSjWkvGsbgdycF1WNVBUbXxtgq6-irA_sjBw/viewform?usp=dialog'
-    };
-
-    // Colonnes du Google Sheet
-    const COLUMNS = {
-        HORODATEUR: 0,
-        TITRE: 1,
-        AUTEUR: 2,
-        ANNEE: 3,
-        JOURNAL: 4,
-        VOLUME: 5,
-        PAGES: 6,
-        DOI: 7,
-        ISBN: 8,
-        CATEGORIE: 9,
-        ETIQUETTES: 10,
-        URL: 11,
-        RESUME: 12,
-        NOTES: 13
-    };
-
-    let allDocuments = [];
-    let isInitialized = false;
-    let expandedDoc = null;
-
-    // Initialisation
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log('Page chargée, initialisation...');
-        
-        // Event listeners
-        document.getElementById('searchInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                console.log('Recherche lancée');
-                loadDocuments();
-            }
-        });
-
-        // Event listeners pour les filtres
-        document.getElementById('categoryFilter').addEventListener('change', function() {
-            console.log('Filtre catégorie changé');
-            loadDocuments();
-        });
-        
-        document.getElementById('yearFilter').addEventListener('change', function() {
-            console.log('Filtre année changé');
-            loadDocuments();
-        });
-        
-        let authorTimeout;
-        document.getElementById('authorFilter').addEventListener('input', function() {
-            clearTimeout(authorTimeout);
-            authorTimeout = setTimeout(() => {
-                console.log('Filtre auteur changé');
-                loadDocuments();
-            }, 500);
-        });
-
-        // Initialiser l'app
-        initializeApp();
-    });
-
-    async function initializeApp() {
-        console.log('Initialisation de l\'app...');
-        try {
-            await testConnection();
-            console.log('Connexion réussie');
-            await loadDashboard();
-            console.log('Dashboard chargé');
-            isInitialized = true;
-            updateStatus('Base de données connectée', true);
-            
-            // Charger automatiquement les documents si on est sur la page bibliographie
-            if (document.getElementById('bibliographie').classList.contains('active')) {
-                console.log('Chargement automatique des documents');
-                await loadDocuments();
-            }
-        } catch (error) {
-            updateStatus('Erreur de connexion à la base', false);
-            console.error('Erreur d\'initialisation:', error);
-            
-            // Afficher l'erreur dans le container
-            const container = document.getElementById('documentsContainer');
-            if (container) {
-                container.innerHTML = `<div class="bib-alert bib-alert-error">Erreur de connexion: ${error.message}</div>`;
-            }
-        }
-    }
-
-    function updateStatus(message, connected) {
-        document.getElementById('statusText').textContent = message;
-        const indicator = document.getElementById('statusIndicator');
-        indicator.className = `bib-status-indicator ${connected ? 'bib-status-connected' : 'bib-status-disconnected'}`;
-    }
-
-    // Navigation entre les pages
-    function showPage(pageId) {
-        console.log('Navigation vers:', pageId);
-        
-        // Masquer toutes les pages
-        const pages = document.querySelectorAll('.page');
-        pages.forEach(page => page.classList.remove('active'));
-        
-        // Afficher la page cible
-        const targetPage = document.getElementById(pageId);
-        if (targetPage) {
-            targetPage.classList.add('active');
-            console.log('Page affichée:', pageId);
-        } else {
-            console.error('Page non trouvée:', pageId);
-        }
-        
-        // Réinitialiser tous les liens de navigation
-        const navLinks = document.querySelectorAll('.nav-link');
-        navLinks.forEach(link => link.classList.remove('active'));
-        
-        // Activer le bon lien - recherche par onclick au lieu de classe
-        const activeLink = document.querySelector(`[onclick*="showPage('${pageId}')"]`);
-        if (activeLink) {
-            activeLink.classList.add('active');
-            console.log('Lien activé pour:', pageId);
-        } else {
-            console.error('Lien non trouvé pour:', pageId);
-        }
-
-        // Charger les données si on va sur la bibliographie
-        if (pageId === 'bibliographie' && isInitialized) {
-            console.log('Chargement des documents pour la bibliographie');
-            loadDocuments();
-        }
-    }
-
-    async function testConnection() {
-        const sheetName = encodeURIComponent('Réponses au formulaire 1');
-        const response = await fetch(
-            `https://sheets.googleapis.com/v4/spreadsheets/${config.spreadsheetId}/values/${sheetName}!A1:B2?key=${config.apiKey}`
-        );
-        
-        if (!response.ok) {
-            throw new Error('Connexion échouée');
-        }
-        
-        return response.json();
-    }
-
-    async function loadDocuments() {
-        console.log('Chargement des documents...');
-        const container = document.getElementById('documentsContainer');
-        
-        if (!container) {
-            console.error('Container documents non trouvé');
-            return;
-        }
-        
-        container.innerHTML = '<div class="bib-loading">Chargement des documents...</div>';
-
-        try {
-            const sheetName = encodeURIComponent('Réponses au formulaire 1');
-            const url = `https://sheets.googleapis.com/v4/spreadsheets/${config.spreadsheetId}/values/${sheetName}!A2:P1000?key=${config.apiKey}`;
-            console.log('URL de requête:', url);
-            
-            const response = await fetch(url);
-            console.log('Statut de la réponse:', response.status);
-            
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error('Erreur API:', errorData);
-                throw new Error(`Erreur ${response.status}: ${errorData.error?.message || 'Erreur inconnue'}`);
-            }
-
-            const data = await response.json();
-            console.log('Données reçues:', data);
-            
-            allDocuments = data.values || [];
-            console.log('Nombre de documents:', allDocuments.length);
-            
-            // Appliquer les filtres
-            let filteredDocs = filterDocuments(allDocuments);
-            console.log('Documents filtrés:', filteredDocs.length);
-            
-            displayDocuments(filteredDocs);
-            updateFilters();
-            
-        } catch (error) {
-            console.error('Erreur lors du chargement:', error);
-            container.innerHTML = `<div class="bib-alert bib-alert-error">Erreur: ${error.message}<br><small>Vérifiez la console pour plus de détails</small></div>`;
-        }
-    }
-
-    function filterDocuments(documents) {
-        const searchTerm = document.getElementById('searchInput')?.value.toLowerCase() || '';
-        const categoryFilter = document.getElementById('categoryFilter')?.value || '';
-        const yearFilter = document.getElementById('yearFilter')?.value || '';
-        const authorFilter = document.getElementById('authorFilter')?.value.toLowerCase() || '';
-
-        return documents.filter(doc => {
-            const matchesSearch = !searchTerm || 
-                (doc[COLUMNS.TITRE] && doc[COLUMNS.TITRE].toLowerCase().includes(searchTerm)) ||
-                (doc[COLUMNS.AUTEUR] && doc[COLUMNS.AUTEUR].toLowerCase().includes(searchTerm)) ||
-                (doc[COLUMNS.ETIQUETTES] && doc[COLUMNS.ETIQUETTES].toLowerCase().includes(searchTerm)) ||
-                (doc[COLUMNS.RESUME] && doc[COLUMNS.RESUME].toLowerCase().includes(searchTerm));
-            
-            const matchesCategory = !categoryFilter || doc[COLUMNS.CATEGORIE] === categoryFilter;
-            const matchesYear = !yearFilter || doc[COLUMNS.ANNEE] === yearFilter;
-            const matchesAuthor = !authorFilter || 
-                (doc[COLUMNS.AUTEUR] && doc[COLUMNS.AUTEUR].toLowerCase().includes(authorFilter));
-
-            return matchesSearch && matchesCategory && matchesYear && matchesAuthor;
-        });
-    }
-
-    function displayDocuments(documents) {
-        console.log('Affichage des documents:', documents.length);
-        const container = document.getElementById('documentsContainer');
-        
-        if (!container) {
-            console.error('Container non trouvé pour affichage');
-            return;
-        }
-        
-        if (!documents || documents.length === 0) {
-            container.innerHTML = '<div class="bib-alert bib-alert-info">Aucun document trouvé. Vérifiez vos filtres de recherche.</div>';
-            return;
-        }
-
-        let html = '';
-
-        documents.forEach((doc, index) => {
-            // Vérifier que le document a au minimum un titre
-            if (!doc || !doc[COLUMNS.TITRE]) {
-                console.log('Document ignoré (pas de titre):', doc);
-                return;
-            }
-
-            const horodateur = doc[COLUMNS.HORODATEUR] || '';
-            const titre = doc[COLUMNS.TITRE] || 'Sans titre';
-            const auteur = doc[COLUMNS.AUTEUR] || 'Auteur inconnu';
-            const annee = doc[COLUMNS.ANNEE] || '';
-            const journal = doc[COLUMNS.JOURNAL] || '';
-            const volume = doc[COLUMNS.VOLUME] || '';
-            const pages = doc[COLUMNS.PAGES] || '';
-            const doi = doc[COLUMNS.DOI] || '';
-            const isbn = doc[COLUMNS.ISBN] || '';
-            const categorie = doc[COLUMNS.CATEGORIE] || '';
-            const etiquettes = doc[COLUMNS.ETIQUETTES] || '';
-            const url = doc[COLUMNS.URL] || '';
-            const resume = doc[COLUMNS.RESUME] || '';
-            const notes = doc[COLUMNS.NOTES] || '';
-            
-            const date = horodateur ? new Date(horodateur).toLocaleDateString('fr-FR') : 'Date inconnue';
-            
-            console.log(`Document ${index}: ${titre} par ${auteur}`);
-            
-            html += `
-            <div class="bib-document-card" onclick="toggleExpandDoc(${index})">
-                <div class="bib-doc-header">
-                    <div>
-                        <div class="bib-doc-title">${titre}</div>
-                        <div class="bib-doc-author">${auteur}</div>
-                    </div>
-                    <div class="bib-doc-date">${date}</div>
-                </div>
-                
-                <div class="bib-doc-meta">
-                    ${annee ? `<span><strong>Année:</strong> ${annee}</span>` : ''}
-                    ${journal ? `<span><strong>Journal:</strong> ${journal}</span>` : ''}
-                    ${volume ? `<span><strong>Vol:</strong> ${volume}</span>` : ''}
-                    ${pages ? `<span><strong>Pages:</strong> ${pages}</span>` : ''}
-                    ${categorie ? `<span><strong>Catégorie:</strong> ${categorie}</span>` : ''}
-                </div>
-                
-                ${etiquettes ? `
-                <div class="bib-doc-tags">
-                    ${etiquettes.split(',').map(tag => `<span class="bib-tag">${tag.trim()}</span>`).join('')}
-                </div>
-                ` : ''}
-                
-                ${url ? `
-                <div class="bib-doc-actions" onclick="event.stopPropagation()">
-                    <input type="text" class="bib-doc-url" value="${url}" readonly>
-                    <button class="bib-copy-btn" onclick="copyToClipboard('${url}')">📋 Copier</button>
-                    <a href="${url}" target="_blank" class="bib-download-btn">⬇️ Télécharger</a>
-                </div>
-                ` : ''}
-                
-                <div id="expanded-${index}" class="bib-expanded-doc" style="display: none;">
-                    <button class="bib-close-expanded" onclick="event.stopPropagation(); toggleExpandDoc(${index})">&times;</button>
-                    
-                    ${doi ? `<p><strong>DOI:</strong> ${doi}</p>` : ''}
-                    ${isbn ? `<p><strong>ISBN:</strong> ${isbn}</p>` : ''}
-                    
-                    ${resume ? `
-                    <h4>Résumé</h4>
-                    <p>${resume}</p>
-                    ` : ''}
-                    
-                    ${notes ? `
-                    <h4>Notes</h4>
-                    <p>${notes}</p>
-                    ` : ''}
-                </div>
-            </div>
-            `;
-        });
-
-        console.log('HTML généré, longueur:', html.length);
-        container.innerHTML = html || '<div class="bib-alert bib-alert-info">Aucun document valide trouvé.</div>';
-    }
-
-    function toggleExpandDoc(index) {
-        const expandedDiv = document.getElementById(`expanded-${index}`);
-        
-        if (expandedDoc === index) {
-            // Fermer
-            expandedDiv.style.display = 'none';
-            expandedDoc = null;
-        } else {
-            // Fermer le précédent s'il y en a un
-            if (expandedDoc !== null) {
-                const prevExpanded = document.getElementById(`expanded-${expandedDoc}`);
-                if (prevExpanded) prevExpanded.style.display = 'none';
-            }
-            
-            // Ouvrir le nouveau
-            expandedDiv.style.display = 'block';
-            expandedDoc = index;
-        }
-    }
-
-    function copyToClipboard(text) {
-        navigator.clipboard.writeText(text).then(() => {
-            // Feedback visuel
-            const notification = document.createElement('div');
-            notification.innerHTML = `
-                <div style="
-                    position: fixed;
-                    top: 20px;
-                    right: 20px;
-                    background: linear-gradient(45deg, #d4af37, #b8941f);
-                    color: #000;
-                    padding: 1rem 1.5rem;
-                    border-radius: 10px;
-                    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
-                    z-index: 3000;
-                    font-weight: bold;
-                    animation: slideIn 0.3s ease-out;
-                ">
-                    ✅ URL copiée dans le presse-papiers !
-                </div>
-            `;
-            
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
-        }).catch(err => {
-            console.error('Erreur copie:', err);
-            alert('Erreur lors de la copie. Veuillez sélectionner et copier manuellement.');
-        });
-    }
-
-    function updateFilters() {
-        const categoryFilter = document.getElementById('categoryFilter');
-        const yearFilter = document.getElementById('yearFilter');
-        
-        if (!categoryFilter || !yearFilter) return;
-        
-        // Catégories uniques
-        const categories = [...new Set(allDocuments.map(doc => doc[COLUMNS.CATEGORIE]).filter(Boolean))];
-        categoryFilter.innerHTML = '<option value="">Toutes les catégories</option>';
-        categories.forEach(cat => {
-            categoryFilter.innerHTML += `<option value="${cat}">${cat}</option>`;
-        });
-        
-        // Années uniques
-        const years = [...new Set(allDocuments.map(doc => doc[COLUMNS.ANNEE]).filter(Boolean))];
-        yearFilter.innerHTML = '<option value="">Toutes les années</option>';
-        years.sort((a, b) => b - a).forEach(year => {
-            yearFilter.innerHTML += `<option value="${year}">${year}</option>`;
-        });
-    }
-
-    async function loadDashboard() {
-        try {
-            const sheetName = encodeURIComponent('Réponses au formulaire 1');
-            const response = await fetch(
-                `https://sheets.googleapis.com/v4/spreadsheets/${config.spreadsheetId}/values/${sheetName}!A2:P1000?key=${config.apiKey}`
-            );
-            
-            if (response.ok) {
-                const data = await response.json();
-                const documents = data.values || [];
-                allDocuments = documents;
-                updateDashboardStats(documents);
-            }
-        } catch (error) {
-            console.error('Erreur dashboard:', error);
-        }
-    }
-
-    function updateDashboardStats(documents) {
-        const total = documents.filter(doc => doc[COLUMNS.TITRE]).length;
-        const categories = new Set(documents.map(doc => doc[COLUMNS.CATEGORIE]).filter(Boolean));
-        const tags = new Set();
-        documents.forEach(doc => {
-            if (doc[COLUMNS.ETIQUETTES]) {
-                doc[COLUMNS.ETIQUETTES].split(',').forEach(tag => tags.add(tag.trim()));
-            }
-        });
-        
-        // Documents ajoutés ce mois
-        const currentMonth = new Date().getMonth();
-        const currentYear = new Date().getFullYear();
-        const recentDocs = documents.filter(doc => {
-            if (doc[COLUMNS.HORODATEUR]) {
-                const date = new Date(doc[COLUMNS.HORODATEUR]);
-                return date.getMonth() === currentMonth && date.getFullYear() === currentYear;
-            }
-            return false;
-        }).length;
-
-        document.getElementById('totalDocs').textContent = total;
-        document.getElementById('totalCategories').textContent = categories.size;
-        document.getElementById('totalTags').textContent = tags.size;
-        document.getElementById('recentDocs').textContent = recentDocs;
-    }
-
-    function openGoogleForm() {
-        window.open(config.formUrl, '_blank');
-    }
-
-    function clearFilters() {
-        document.getElementById('searchInput').value = '';
-        document.getElementById('categoryFilter').value = '';
-        document.getElementById('yearFilter').value = '';
-        document.getElementById('authorFilter').value = '';
-        loadDocuments();
-    }
-
-    // Animation d'entrée pour les éléments
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-    `;
-    document.head.appendChild(style);
-</script>
+    
 </body>
 </html>
