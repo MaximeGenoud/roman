@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Analyses mathématiques du Panthéon de Rome : calculs structurels, propagation de la lumière, acoustique et géométrie parfaite.">
+    <meta name="keywords" content="Panthéon, Rome, Mathématiques, Calculs, Structure, Lumière, Acoustique, Géométrie">
+    <meta name="author" content="Projet Panthéon">
+    <meta property="og:title" content="Analyses Mathématiques du Panthéon">
+    <meta property="og:description" content="Calculs et modélisations des phénomènes physiques du monument">
+    <meta property="og:type" content="website">
+    <title>Analyses Mathématiques - Panthéon de Rome</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+    <div class="background-pattern"></div>
+
+    <header class="header" role="banner">
+        <nav class="nav" role="navigation" aria-label="Navigation principale">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="logo">
+                    <span class="logo-text">PANTHÉON</span>
+                    <span class="logo-subtitle">ROMAIN</span>
+                </div>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Menu de navigation" aria-expanded="false">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+            <ul class="nav-links">
+                <li>
+                    <a href="index.html" class="nav-link">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M9 22V12H15V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Accueil</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="index.html" class="nav-link">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Projet</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="index.html" class="nav-link">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 19.5C4 18.6716 4.67157 18 5.5 18H18.5C19.3284 18 20 18.6716 20 19.5V20.5C20 21.3284 19.3284 22 18.5 22H5.5C4.67157 22 4 21.3284 4 20.5V19.5Z" stroke="currentColor" stroke-width="2"/>
+                            <path d="M4 19.5V9.5C4 8.67157 4.67157 8 5.5 8H18.5C19.3284 8 20 8.67157 20 9.5V19.5" stroke="currentColor" stroke-width="2"/>
+                            <path d="M4 9.5V4.5C4 3.67157 4.67157 3 5.5 3H18.5C19.3284 3 20 3.67157 20 4.5V9.5" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        <span>Ressources</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="mathematiques.html" class="nav-link active" aria-current="page">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 7H6C4.89543 7 4 7.89543 4 9V18C4 19.1046 4.89543 20 6 20H15C16.1046 20 17 19.1046 17 18V15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M9 15L12 12M12 12L15 15M12 12V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M20 9H14M17 6L17 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <span>Mathématiques</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="histoire.html" class="nav-link">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <span>Histoire</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <!-- PAGE MATHÉMATIQUES -->
+        <div class="page active">
+            <div class="hero-section">
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <div class="hero-badge">Analyses Scientifiques</div>
+                    <h1 class="hero-title">ANALYSES MATHÉMATIQUES</h1>
+                    <p class="hero-subtitle">
+                        Calculs et modélisations des phénomènes physiques du Panthéon
+                    </p>
+                    <div class="hero-scroll-indicator" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 13L12 18L17 13M7 6L12 11L17 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section Introduction -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-badge">Introduction</span>
+                    <h2 class="section-title">Approche Mathématique du Panthéon</h2>
+                    <p class="section-description">Une analyse scientifique approfondie des principes physiques et mathématiques qui régissent ce monument exceptionnel</p>
+                </div>
+                <div class="intro-content">
+                    <p>Le Panthéon de Rome représente un chef-d'œuvre d'ingénierie mathématique et physique. Chaque aspect de sa construction - de la structure du dôme à la propagation de la lumière en passant par l'acoustique - peut être analysé et modélisé à travers des équations précises.</p>
+                    <p>Cette section présente les calculs et modélisations qui révèlent la sophistication des connaissances des architectes romains. Les formules présentées permettent de comprendre comment les Romains ont créé une structure capable de défier le temps pendant près de 2000 ans.</p>
+                </div>
+            </div>
+
+            <!-- Cartes de présentation des domaines -->
+            <div class="section">
+                <div class="math-cards-grid">
+                    <div class="math-card">
+                        <div class="math-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <h3>Forces Structurelles</h3>
+                        <p>Analyse des contraintes et forces dans le dôme</p>
+                    </div>
+                    <div class="math-card">
+                        <div class="math-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/>
+                                <path d="M12 1V3M12 21V23M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M1 12H3M21 12H23M4.22 19.78L5.64 18.36M18.36 5.64L19.78 4.22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <h3>Propagation Lumineuse</h3>
+                        <p>Modélisation de l'intensité lumineuse</p>
+                    </div>
+                    <div class="math-card">
+                        <div class="math-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2V6M12 18V22M6 12H2M22 12H18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <h3>Acoustique</h3>
+                        <p>Calculs du temps de réverbération</p>
+                    </div>
+                    <div class="math-card">
+                        <div class="math-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <h3>Géométrie Sacrée</h3>
+                        <p>Proportions et nombre d'or</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Forces Structurelles -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-badge">Ingénierie</span>
+                    <h2 class="section-title">Forces Structurelles</h2>
+                    <p class="section-description">Calculs des contraintes et forces dans la structure du dôme</p>
+                </div>
+                <div class="calculation-box">
+                    <div class="calculation-header">
+                        <div class="calculation-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3 21H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M5 21V7L13 2L21 7V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M9 9V13H15V9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <h3>Calcul des Contraintes dans le Dôme</h3>
+                    </div>
+                    <p>Le dôme du Panthéon exerce une contrainte de compression radiale. Pour un dôme sphérique de rayon R et d'épaisseur t :</p>
+                    <div class="formula">
+                        σ = (ρ × g × R²) / (2 × t × sin²φ)
+                    </div>
+                    <p>Où :</p>
+                    <ul class="formula-list">
+                        <li><strong>σ</strong> = contrainte de compression (Pa)</li>
+                        <li><strong>ρ</strong> = densité du béton romain ≈ 1800 kg/m³</li>
+                        <li><strong>g</strong> = accélération gravitationnelle = 9,81 m/s²</li>
+                        <li><strong>R</strong> = rayon du dôme = 21,65 m</li>
+                        <li><strong>φ</strong> = angle depuis le sommet</li>
+                        <li><strong>t</strong> = épaisseur variable (6,2m à la base, 1,2m au sommet)</li>
+                    </ul>
+                    
+                    <!-- Photo du dôme -->
+                    <div class="math-visualization">
+                        <img src="https://www.voyageavecnous.fr/wp-content/uploads/2023/02/pantheon-rome.jpg" alt="Dôme du Panthéon de Rome - Structure et architecture" class="math-photo">
+                        <p class="photo-caption">Dôme du Panthéon : structure sphérique de 43,3 m de diamètre avec épaisseur variable (6,2m à la base, 1,2m au sommet)</p>
+                    </div>
+
+                    <div class="calculation-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">3,2 MPa</div>
+                            <div class="stat-label">Contrainte maximale</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">15-20</div>
+                            <div class="stat-label">Facteur de sécurité</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">&lt; 2 mm</div>
+                            <div class="stat-label">Déformation (2000 ans)</div>
+                        </div>
+                    </div>
+
+                    <p class="formula-note">Cette formule permet de calculer les contraintes de compression à différents points du dôme, révélant l'ingéniosité de la conception romaine qui minimise les contraintes maximales grâce à l'épaisseur variable et à l'allègement progressif des matériaux.</p>
+                    
+                    <!-- Masse totale du dôme -->
+                    <div class="formula-section">
+                        <h4>Masse Totale du Dôme</h4>
+                        <div class="formula">
+                            m<sub>dôme</sub> ≈ 4500 tonnes
+                        </div>
+                        <p>Cette masse considérable est utilisée dans les raisonnements de charges et de contraintes structurelles.</p>
+                    </div>
+
+                    <!-- Décomposition vectorielle des forces -->
+                    <div class="formula-section">
+                        <h4>Décomposition Vectorielle des Forces</h4>
+                        <div class="formula">
+                            F⃗ = F⃗<sub>verticale</sub> + F⃗<sub>horizontale</sub>
+                        </div>
+                        <p>Les forces dans le dôme sont décomposées en composantes verticales et horizontales pour l'analyse structurelle.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Propagation de la Lumière -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-badge">Optique</span>
+                    <h2 class="section-title">Propagation de la Lumière</h2>
+                    <p class="section-description">Analyse mathématique de l'intensité lumineuse à travers l'oculus</p>
+                </div>
+                <div class="calculation-box">
+                    <div class="calculation-header">
+                        <div class="calculation-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/>
+                                <path d="M12 1V3M12 21V23M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M1 12H3M21 12H23M4.22 19.78L5.64 18.36M18.36 5.64L19.78 4.22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <h3>Calcul de l'Intensité Lumineuse</h3>
+                    </div>
+                    <p>L'intensité lumineuse à l'intérieur du Panthéon suit la loi du cosinus de Lambert :</p>
+                    <div class="formula">
+                        I(θ) = I₀ × cos(θ) × (A_oculus / A_totale)
+                    </div>
+                    <p>Avec :</p>
+                    <ul class="formula-list">
+                        <li><strong>I₀</strong> = intensité lumineuse extérieure</li>
+                        <li><strong>θ</strong> = angle d'incidence solaire</li>
+                        <li><strong>A_oculus</strong> = π × (4,5)² ≈ 63,6 m²</li>
+                        <li><strong>A_totale</strong> = surface intérieure du dôme ≈ 2953 m²</li>
+                    </ul>
+
+                    <!-- Photo de l'oculus et de la lumière -->
+                    <div class="math-visualization">
+                        <img src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=1200&q=80" alt="Oculus du Panthéon - Rayon de lumière" class="math-photo">
+                        <p class="photo-caption">L'oculus (9m de diamètre) : unique source de lumière naturelle créant des variations d'intensité selon l'angle d'incidence solaire θ</p>
+                    </div>
+
+                    <div class="calculation-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">63,6 m²</div>
+                            <div class="stat-label">Surface oculus</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">2,15%</div>
+                            <div class="stat-label">Ratio surface</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">Variable</div>
+                            <div class="stat-label">Intensité selon θ</div>
+                        </div>
+                    </div>
+
+                    <p class="formula-note">Cette modélisation explique les variations dramatiques d'éclairage selon l'heure et la saison, créant des effets visuels spectaculaires à l'intérieur du monument. L'angle θ varie de 0° (midi) à 90° (lever/coucher), modifiant l'intensité selon cos(θ).</p>
+                    
+                    <!-- Aire de l'oculus -->
+                    <div class="formula-section">
+                        <h4>Aire de l'Oculus</h4>
+                        <div class="formula">
+                            A = πr²
+                        </div>
+                        <p>Où r = 4,46 m (rayon de l'oculus)</p>
+                        <div class="formula">
+                            A ≈ π × (4,46)² ≈ 62,5 m²
+                        </div>
+                        <p class="formula-note">Surface de l'ouverture circulaire au sommet du dôme.</p>
+                    </div>
+
+                    <!-- Géométrie solaire -->
+                    <div class="formula-section">
+                        <h4>Géométrie Solaire et Angles</h4>
+                        <div class="formula">
+                            Angle solaire au 21 avril : θ ≈ 60°
+                        </div>
+                        <div class="formula">
+                            Latitude de Rome : φ ≈ 41,9° N
+                        </div>
+                        <p>Angles de trajectoire du rayon solaire utilisés dans les calculs :</p>
+                        <ul class="formula-list">
+                            <li><strong>24°</strong> - Lever du soleil</li>
+                            <li><strong>48°</strong> - Matinée</li>
+                            <li><strong>60°</strong> - 21 avril (midi)</li>
+                            <li><strong>72°</strong> - Après-midi</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analyse Acoustique -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-badge">Acoustique</span>
+                    <h2 class="section-title">Analyse Acoustique</h2>
+                    <p class="section-description">Calculs du temps de réverbération et des propriétés sonores</p>
+                </div>
+                <div class="calculation-box">
+                    <div class="calculation-header">
+                        <div class="calculation-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2V6M12 18V22M6 12H2M22 12H18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <h3>Temps de Réverbération</h3>
+                    </div>
+                    <p>Le temps de réverbération selon la formule de Sabine :</p>
+                    <div class="formula">
+                        T₆₀ = 0,161 × V / A
+                    </div>
+                    <p>Où :</p>
+                    <ul class="formula-list">
+                        <li><strong>V</strong> = volume de la rotonde ≈ 41 250 m³</li>
+                        <li><strong>A</strong> = absorption acoustique totale</li>
+                        <li><strong>T₆₀</strong> ≈ 8-10 secondes (fréquences moyennes)</li>
+                    </ul>
+
+                    <!-- Photo de l'intérieur pour l'acoustique -->
+                    <div class="math-visualization">
+                        <img src="https://cdn.pixabay.com/photo/2017/07/09/09/42/rome-2486521_1280.jpg" alt="Intérieur du Panthéon - Acoustique et réverbération" class="math-photo">
+                        <p class="photo-caption">Intérieur du Panthéon : volume de 41 250 m³ créant un temps de réverbération exceptionnel de 8-10 secondes</p>
+                    </div>
+
+                    <div class="calculation-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">41 250 m³</div>
+                            <div class="stat-label">Volume total</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">8-10 s</div>
+                            <div class="stat-label">Temps réverbération</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">Exceptionnel</div>
+                            <div class="stat-label">Qualité acoustique</div>
+                        </div>
+                    </div>
+
+                    <p class="formula-note">Ce temps de réverbération exceptionnellement long crée une expérience acoustique unique, transformant chaque son en une résonance profonde et mystique. Cette propriété était probablement intentionnelle pour les cérémonies religieuses.</p>
+                    
+                    <!-- Volume de l'oculus -->
+                    <div class="formula-section">
+                        <h4>Volume de l'Oculus (Approximation par Extrusion)</h4>
+                        <div class="formula">
+                            V ≈ A × e
+                        </div>
+                        <p>Où :</p>
+                        <ul class="formula-list">
+                            <li><strong>A</strong> = aire de l'oculus ≈ 62,5 m²</li>
+                            <li><strong>e</strong> = épaisseur ≈ 1,2 m</li>
+                        </ul>
+                        <div class="formula">
+                            V ≈ 62,5 × 1,2 ≈ 75 m³
+                        </div>
+                    </div>
+
+                    <!-- Masse de l'oculus -->
+                    <div class="formula-section">
+                        <h4>Masse de l'Oculus</h4>
+                        <div class="formula">
+                            m = V × ρ
+                        </div>
+                        <p>Où :</p>
+                        <ul class="formula-list">
+                            <li><strong>V</strong> = volume ≈ 75 m³</li>
+                            <li><strong>ρ</strong> = densité du béton romain ≈ 1500 kg/m³</li>
+                        </ul>
+                        <div class="formula">
+                            m ≈ 75 × 1500 ≈ 112 000 kg
+                        </div>
+                        <p class="formula-note">Masse de la section de l'oculus utilisée dans les calculs structurels.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Géométrie Parfaite -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-badge">Géométrie</span>
+                    <h2 class="section-title">Géométrie Parfaite</h2>
+                    <p class="section-description">Proportions sacrées et harmonie mathématique</p>
+                </div>
+                <div class="calculation-box">
+                    <div class="calculation-header">
+                        <div class="calculation-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <h3>Proportions Sacrées</h3>
+                    </div>
+                    <p>Le Panthéon respecte le nombre d'or φ = (1 + √5) / 2 ≈ 1,618</p>
+                    <div class="formula">
+                        Hauteur / Diamètre = 43,3 / 43,3 = 1 (sphère parfaite)
+                    </div>
+                    <p class="formula-note">Le rapport entre les différents éléments architecturaux suit souvent les proportions dorées, créant une harmonie visuelle parfaite qui a inspiré les architectes pendant des siècles.</p>
+                    
+                    <div class="formula">
+                        φ = (1 + √5) / 2 ≈ 1,618
+                    </div>
+
+                    <!-- Photo montrant les proportions -->
+                    <div class="math-visualization">
+                        <img src="https://media.destinationrome.fr/resize/uploads/sites/4/2016/08/Pantheon-Rome-Richjheath-scaled-1200x800.jpg?format=auto" alt="Panthéon de Rome - Proportions parfaites et géométrie sacrée" class="math-photo">
+                        <p class="photo-caption">Géométrie parfaite : Hauteur = Diamètre = 43,3 m (sphère parfaite) respectant le nombre d'or φ = 1,618</p>
+                    </div>
+
+                    <div class="calculation-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">1,618</div>
+                            <div class="stat-label">Nombre d'or (φ)</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">1:1</div>
+                            <div class="stat-label">Ratio H/D</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">Parfait</div>
+                            <div class="stat-label">Harmonie</div>
+                        </div>
+                    </div>
+
+                    <p>Cette proportion divine se retrouve dans de nombreux éléments du Panthéon, témoignant de la recherche de perfection géométrique des architectes romains. La sphère parfaite (hauteur = diamètre) crée une harmonie visuelle exceptionnelle.</p>
+                    
+                    <!-- Relation densité-masse-volume -->
+                    <div class="formula-section">
+                        <h4>Relation Densité - Masse - Volume</h4>
+                        <div class="formula">
+                            ρ = m / V
+                        </div>
+                        <p>Cette relation fondamentale est utilisée à plusieurs reprises dans les calculs structurels du Panthéon pour déterminer les masses et volumes des différents éléments.</p>
+                    </div>
+
+                    <!-- Sphère parfaite -->
+                    <div class="formula-section">
+                        <h4>Sphère Parfaite du Panthéon</h4>
+                        <div class="formula">
+                            diamètre = hauteur = 43,3 m
+                        </div>
+                        <p>Relation implicite de sphère :</p>
+                        <div class="formula">
+                            D = H ⇒ R = 21,65 m
+                        </div>
+                        <p class="formula-note">Le Panthéon respecte parfaitement cette relation géométrique, créant une sphère parfaite.</p>
+                    </div>
+
+                    <!-- Formules géométriques implicites -->
+                    <div class="formula-section">
+                        <h4>Formules Géométriques Fondamentales</h4>
+                        <p>Le document repose conceptuellement sur ces relations géométriques :</p>
+                        <div class="formula">
+                            Aire d'un cercle : A = πr²
+                        </div>
+                        <div class="formula">
+                            Volume d'une sphère : V = (4/3)πr³
+                        </div>
+                        <p class="formula-note">Ces formules sont utilisées implicitement dans les calculs de surface, volume et masse du dôme et de l'oculus.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3 class="footer-title">Panthéon de Rome</h3>
+                <p class="footer-description">Découvrez les analyses mathématiques et scientifiques de ce monument emblématique de l'Antiquité romaine.</p>
+            </div>
+            <div class="footer-section">
+                <h4 class="footer-subtitle">Navigation</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="histoire.html">Histoire</a></li>
+                    <li><a href="mathematiques.html">Mathématiques</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4 class="footer-subtitle">Projet</h4>
+                <p class="footer-text">Projet éducatif sur le Panthéon de Rome</p>
+                <p class="footer-copyright">&copy; 2024 Projet Panthéon. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Menu mobile
+        function initMobileMenu() {
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', function() {
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    this.setAttribute('aria-expanded', !isExpanded);
+                    navLinks.classList.toggle('active');
+                });
+
+                // Fermer le menu quand on clique sur un lien
+                navLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', function() {
+                        if (window.innerWidth <= 768) {
+                            menuToggle.setAttribute('aria-expanded', 'false');
+                            navLinks.classList.remove('active');
+                        }
+                    });
+                });
+
+                // Fermer le menu si on clique en dehors
+                document.addEventListener('click', function(event) {
+                    if (window.innerWidth <= 768 && 
+                        !navLinks.contains(event.target) && 
+                        !menuToggle.contains(event.target) &&
+                        navLinks.classList.contains('active')) {
+                        menuToggle.setAttribute('aria-expanded', 'false');
+                        navLinks.classList.remove('active');
+                    }
+                });
+
+                // Fermer le menu au redimensionnement si on passe en desktop
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth > 768) {
+                        menuToggle.setAttribute('aria-expanded', 'false');
+                        navLinks.classList.remove('active');
+                    }
+                });
+            }
+        }
+
+        // Indicateur de scroll hero
+        function initHeroScrollIndicator() {
+            const scrollIndicator = document.querySelector('.hero-scroll-indicator');
+            if (scrollIndicator) {
+                scrollIndicator.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: window.innerHeight * 0.8,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+        }
+
+        // Animations au scroll
+        function initScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('aos-animate');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.math-card, .calculation-box').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                observer.observe(el);
+            });
+        }
+
+        // Initialisation au chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            initMobileMenu();
+            initHeroScrollIndicator();
+            initScrollAnimations();
+        });
+    </script>
+    
+</body>
+</html>
