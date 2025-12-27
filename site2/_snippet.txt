@@ -1,0 +1,40 @@
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/f/fc/Plan_champ_de_mars_centre.png"
+        alt="Plan du Champ de Mars au centre de Rome antique"
+      >
+      <p class="wiki-image-caption">
+        Plan du Champ de Mars : le Panthéon s’inscrit dans un secteur monumental dense, entre grands équipements publics et axes de circulation.
+      </p>
+    </div>
+
+    <div class="wiki-infobox">
+      <h3>Localisation</h3>
+      <table>
+        <tr><td>Quartier</td><td><strong>Campus Martius</strong> (Champ de Mars)</td></tr>
+        <tr><td>Distance du Forum</td><td>˜ <strong>1,2 km</strong></td></tr>
+        <tr><td>Altitude</td><td><strong>13 m</strong> (zone basse liée au Tibre)</td></tr>
+        <tr><td>Ordre de grandeur du secteur</td><td>˜ <strong>250 hectares</strong></td></tr>
+      </table>
+      <div class="wiki-infobox-note">
+        <p>
+          Le Champ de Mars est un espace vaste et relativement ouvert par rapport au centre ancien. Cette “respiration” urbaine a favorisé,
+          à l’époque impériale, la concentration de monuments de grande ampleur (thermes, portiques, basiliques), visibles et accessibles.
+        </p>
+      </div>
+    </div>
+
+    <div class="wiki-section">
+      <h3>Le Champ de Mars antique</h3>
+
+      <p>
+        Le <strong>Campus Martius</strong> constitue d’abord une plaine associée à <strong>Mars</strong> et aux activités militaires.
+        Situé en grande partie <strong>hors du pomerium</strong>, il offre un espace disponible, moins contraint par le tissu dense et
+        les limites symboliques du centre civique de Rome. Avec l’expansion urbaine, ce secteur change de fonction : il devient progressivement
+        une zone d’<strong>expérimentation monumentale</strong>, où l’architecture peut se déployer à grande échelle.
+      </p>
+
+      <p>
+        Dans ce contexte, l’implantation du Panthéon n’est pas un choix “isolé” : elle répond à une logique de quartier, où se mêlent
+        circulation, rassemblements civiques, prestige et mise en scène du pouvoir. La proximité du <strong>Tibre</strong> et des axes
+        de passage renforce aussi l’intérêt du site : le monument se trouve dans un secteur naturellement fréquenté et lisible dans la ville.
+      </p>
