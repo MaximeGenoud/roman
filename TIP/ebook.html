@@ -349,19 +349,75 @@
         <p class="motto">"Alea Jacta Est"</p>
     </footer>
 
-    <audio id="backgroundMusic" loop>
-        <source src="mp3/04-honor.mp3" type="audio/mpeg">
-        Votre navigateur ne supporte pas l'élément audio.
-    </audio>
+    <audio id="backgroundMusic" loop></audio>
+    
+    <input type="file" id="audioFileInput" accept="audio/mp3,audio/mpeg" style="display: none;">
 
     <script>
         const audio = document.getElementById('backgroundMusic');
         const musicBtn = document.getElementById('musicBtn');
+        const fileInput = document.getElementById('audioFileInput');
         let isPlaying = false;
+        let audioLoaded = false;
 
         audio.volume = 0.7;
 
+        // Essayer de charger automatiquement depuis différents chemins
+        const possiblePaths = [
+            'mp3/04-honor.mp3',
+            './mp3/04-honor.mp3',
+            '04-honor.mp3',
+            './04-honor.mp3',
+            '../mp3/04-honor.mp3'
+        ];
+
+        let currentPathIndex = 0;
+
+        function tryLoadAudio() {
+            if (currentPathIndex < possiblePaths.length) {
+                audio.src = possiblePaths[currentPathIndex];
+                audio.load();
+            }
+        }
+
+        audio.addEventListener('error', () => {
+            currentPathIndex++;
+            if (currentPathIndex < possiblePaths.length) {
+                tryLoadAudio();
+            } else if (!audioLoaded) {
+                console.log('Aucun chemin automatique n\'a fonctionné');
+            }
+        });
+
+        audio.addEventListener('canplay', () => {
+            audioLoaded = true;
+            console.log('Audio chargé depuis:', possiblePaths[currentPathIndex]);
+        });
+
+        // Tenter le chargement automatique
+        tryLoadAudio();
+
+        // Permettre le chargement manuel
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const url = URL.createObjectURL(file);
+                audio.src = url;
+                audioLoaded = true;
+                audio.load();
+                alert('Fichier audio chargé avec succès !');
+            }
+        });
+
         function toggleMusic() {
+            if (!audioLoaded && !audio.src) {
+                const choice = confirm('Le fichier audio n\'a pas été trouvé automatiquement.\n\nVoulez-vous sélectionner manuellement le fichier 04-honor.mp3 ?');
+                if (choice) {
+                    fileInput.click();
+                }
+                return;
+            }
+
             if (isPlaying) {
                 audio.pause();
                 musicBtn.textContent = 'Audire Musicam';
@@ -370,7 +426,10 @@
             } else {
                 audio.play().catch(error => {
                     console.log('Erreur de lecture:', error);
-                    alert('Impossible de lire la musique. Veuillez vérifier que le fichier __04-honor.mp3 est accessible.');
+                    const choice = confirm('Impossible de lire la musique automatiquement.\n\nVoulez-vous sélectionner manuellement le fichier 04-honor.mp3 ?');
+                    if (choice) {
+                        fileInput.click();
+                    }
                 });
                 musicBtn.textContent = 'Silentium';
                 musicBtn.classList.add('playing');
